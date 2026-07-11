@@ -1,0 +1,5 @@
+{
+  "_readme": "Best-effort, MANUELL gepflegter Zusatz-Datensatz fuer Team/Draft-Pick/Karriere-Spiele-Kontext bei Vergleichsspielern. NICHT Teil der eigentlichen Sticky-Score-Berechnung. Key = Spielername normalisiert (trim + lowercase, siehe normalizeKeyName in js/player-app.js). Nur 2 Eintraege als verifizierte Demo enthalten (Stand Juli 2026, basketball-reference.com) - fuer flaechendeckende Abdeckung ueber die ~1.870 Spieler im historischen Pool siehe README.md, Abschnitt 'Draft-Context erweitern'.",
+  "jarrett allen": {"team": "Brooklyn Nets", "draftYear": 2017, "draftPick": 22, "careerGames": 624},
+  "deandre ayton": {"team": "Phoenix Suns", "draftYear": 2018, "draftPick": 1, "careerGames": 470}
+}
