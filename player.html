@@ -33,25 +33,29 @@
     </div>
   </div>
 
+  <div class="card" id="roleCard">
+    <h2>Rollen-Annahme</h2>
+    <div id="roleProfile"><p class="hint">Lade Daten…</p></div>
+  </div>
+
   <div class="card" id="compCard" style="display:none;">
     <h2>Engste historische Vergleichsspieler</h2>
     <p class="steps">
       Berechnet über 11 Shape-Stats (PTS/TRB/ORB/AST/STL/BLK/TOV pro 36, 3PAr, FTr, TS%, eFG%),
       z-normalisiert gegen alle Spieler mit ≥40 Gesamtminuten im aktuellen Datenbestand. Der
       "Match"-Wert ist eine grobe visuelle Einordnung der Distanz, keine statistische Kennzahl.
+      "Ähnlichste Stats" / "Größte Unterschiede" zeigen, welche der 11 Shape-Stats bei diesem
+      Vergleich die kleinste bzw. größte z-Differenz zum Zielspieler haben.
     </p>
     <table class="comp-table">
       <thead>
-        <tr><th>#</th><th>Spieler</th><th>Match</th><th>Team (Jahr)</th><th>Draft-Pick</th><th>Karriere-Spiele</th></tr>
+        <tr><th>#</th><th>Spieler</th><th>Match</th><th>Ähnlichste Stats</th><th>Größte Unterschiede</th></tr>
       </thead>
       <tbody id="compBody"></tbody>
     </table>
     <div class="context-note">
-      <strong>Wichtig zur Team/Draft/Karriere-Spalte:</strong> Diese Spalten sind ein separater,
-      manuell/best-effort gepflegter Zusatz-Datensatz (<code>data/draft-context.json</code>) — sie
-      stammen NICHT aus der Summer-League-CSV und sind für ältere oder undraftete Spieler oft
-      unvollständig ("—"). Der eigentliche Ähnlichkeits-Score links davon basiert ausschließlich auf
-      den Summer-League-Statlinien und ist davon unabhängig zuverlässig.
+      Alle Werte in dieser Tabelle — Match-% wie Stat-Spalten — stammen ausschließlich aus den
+      Summer-League-Statlinien im aktuellen Datenbestand, nicht aus externen Quellen.
     </div>
   </div>
 

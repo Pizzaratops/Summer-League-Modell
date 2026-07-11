@@ -38,10 +38,11 @@ function loadFromStorage(){
   }
 }
 
-function parsePaste(raw, sourceLabel){
+function parsePaste(raw, sourceLabel, seasonTag){
   const {rows, added, skipped, headerError} = parseCSVRows(raw);
   if(headerError) return {added:0, skipped, total:Object.keys(players).length, headerError:true};
   rows.forEach(row=>{
+    row._seasonTag = seasonTag || "2026";
     const key = row.player_name + "|" + (sourceLabel || "current");
     players[key] = row;
   });
@@ -76,6 +77,7 @@ function updateMeta(playerName, field, value){
 let lastRows = [];
 let lastFullRows = [];
 let currentPositionFilter = "ALL";
+let currentSeasonFilter = "ALL";
 
 function playerHref(name){
   return "player.html?name=" + encodeURIComponent(name);
@@ -83,7 +85,8 @@ function playerHref(name){
 
 function render(rows){
   lastFullRows = rows;
-  const filtered = currentPositionFilter === "ALL" ? rows : rows.filter(r => r._position === currentPositionFilter);
+  let filtered = currentPositionFilter === "ALL" ? rows : rows.filter(r => r._position === currentPositionFilter);
+  if(currentSeasonFilter === "2026") filtered = filtered.filter(r => (r._seasonTag || "2026") === "2026");
   if(currentMode === "rotation") renderRotation(filtered);
   else renderSticky(filtered);
 }
@@ -332,7 +335,8 @@ function runCalculation(raw, sourceLabel){
     return;
   }
 
-  const {added, skipped, total, headerError} = parsePaste(raw, sourceLabel);
+  const seasonTag = document.getElementById("seasonTagSelect").value;
+  const {added, skipped, total, headerError} = parsePaste(raw, sourceLabel, seasonTag);
 
   if(headerError){
     statusEl.className = "error";
@@ -421,6 +425,11 @@ document.getElementById("exportBtn").addEventListener("click", ()=>{
 
 document.getElementById("positionFilter").addEventListener("change", (e)=>{
   currentPositionFilter = e.target.value;
+  if(lastFullRows.length > 0) render(lastFullRows);
+});
+
+document.getElementById("seasonFilter").addEventListener("change", (e)=>{
+  currentSeasonFilter = e.target.value;
   if(lastFullRows.length > 0) render(lastFullRows);
 });
 

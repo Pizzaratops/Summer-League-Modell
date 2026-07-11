@@ -234,6 +234,14 @@ a.player-link:hover{color:var(--orange); border-color:var(--orange);}
 }
 .comp-match-track{display:inline-block;width:80px;height:8px;border-radius:4px;background:#e6e9ee;vertical-align:middle;}
 .context-note{font-size:12px;color:var(--muted);background:#f7f8fa;border:1px solid var(--border);border-radius:6px;padding:10px 12px;margin-top:12px;}
+
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;}
+.role-grid h3{font-size:13px;text-transform:uppercase;letter-spacing:0.3px;color:var(--navy);margin:0 0 6px;}
+.role-grid ul{margin:0;padding-left:18px;font-size:13px;line-height:1.5;}
+.role-assumption h3{font-size:13px;text-transform:uppercase;letter-spacing:0.3px;color:var(--navy);margin:0 0 8px;}
+.role-tag{background:#f7f8fa;border:1px solid var(--border);border-radius:6px;padding:10px 12px;font-size:13px;line-height:1.5;margin-bottom:8px;}
+.role-tag strong{color:var(--navy);}
+@media (max-width:640px){.role-grid{grid-template-columns:1fr;}}
 .player-picker{margin-bottom:18px;}
 .player-picker input{
   width:100%;max-width:420px;padding:10px 12px;border:1px solid var(--border);border-radius:6px;font-size:14px;

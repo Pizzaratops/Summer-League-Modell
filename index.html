@@ -25,6 +25,14 @@
     <p class="steps">
       CSV-Export von nbadraft.app (Summer League Explorer, Modus Per 36) hier auswählen oder einfügen.
     </p>
+    <div class="weight-field" style="margin-bottom:10px;max-width:320px;">
+      <label>Diese Daten sind…</label>
+      <select id="seasonTagSelect" style="padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:14px;width:100%;">
+        <option value="2026">Nur 2026 (aktuelle Saison)</option>
+        <option value="historisch">Historisch / alle Jahrgänge</option>
+      </select>
+      <div class="hint">Steuert nur den "Nur 2026"-Filter unten in der Tabelle — die CSV selbst enthält kein Jahresfeld, deshalb musst du das hier beim Hochladen selbst markieren.</div>
+    </div>
     <input type="file" id="csvFile" accept=".csv" style="margin-bottom:10px;">
     <div class="hint" style="margin-bottom:10px;">— oder —</div>
     <textarea id="pasteInput" placeholder="Alternativ: CSV-Inhalt hier einfügen..."></textarea>
@@ -163,6 +171,13 @@
         <option value="G">Nur Guards</option>
         <option value="W">Nur Wings</option>
         <option value="B">Nur Bigs</option>
+      </select>
+    </div>
+    <div class="weight-field" style="margin-bottom:14px;">
+      <label>Zeitraum (basiert auf der Markierung beim Hochladen, siehe Schritt 1)</label>
+      <select id="seasonFilter" style="padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:14px;max-width:260px;">
+        <option value="ALL">Alle geladenen Daten</option>
+        <option value="2026">Nur 2026 Summer League</option>
       </select>
     </div>
     <div class="legend" id="stickyLegend">
