@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MFHFB Sticky Score</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="header-row">
+    <div>
+      <h1>MFHFB Sticky Score</h1>
+      <p>Summer League Per-36 Stats → gewichteter Composite Score (Sticky ×1,5 / Other ×1 / Icky ×0,5)</p>
+    </div>
+    <nav><a href="player.html">Spieler-Vergleich (Spinnendiagramm) →</a></nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="card">
+    <h2>1. Daten laden</h2>
+    <p class="steps">
+      CSV-Export von nbadraft.app (Summer League Explorer, Modus Per 36) hier auswählen oder einfügen.
+    </p>
+    <input type="file" id="csvFile" accept=".csv" style="margin-bottom:10px;">
+    <div class="hint" style="margin-bottom:10px;">— oder —</div>
+    <textarea id="pasteInput" placeholder="Alternativ: CSV-Inhalt hier einfügen..."></textarea>
+    <div class="hint">Erwartete Spalten (Reihenfolge egal, wird per Header erkannt): Player, GP, MIN, PTS, REB, AST, STL, BLK, TOV, OREB, DREB, PF, +/-, eFG%, FGM, FGA, 3PM, 3PA, FTM, FTA, FG%, 3P%, FT%, GmSc, TS%</div>
+  </div>
+
+  <details class="card">
+    <summary>Was die Kategorien bedeuten <span class="hint">(zum Aufklappen)</span></summary>
+    <p class="steps" style="margin-top:14px;">
+      Manche Stats sagen zuverlässig etwas über NBA-Potenzial aus. Andere sind bei 1-5 Spielen
+      fast nur Zufall. Deshalb zählen sie unterschiedlich stark.
+    </p>
+    <p class="steps">
+      <strong style="color:var(--sticky)">Sticky (×1,5):</strong> AST/36, BLK/36, Rebounding (TRB+ORB
+      kombiniert). Diese Fähigkeiten übertragen sich am zuverlässigsten von der Summer League in die
+      echte NBA-Saison.
+    </p>
+    <p class="steps">
+      <strong>Other (×1):</strong> 3PT Attempt Rate, 3PA/36, DRB/36, PF/36, FGA/36, Fantasy Points/36,
+      TOV/36, FT Attempt Rate, AST/TO, FTA/36, effizienzbereinigte Punkte. Mittlere Aussagekraft —
+      hängt oft von Spielzeit oder Teamrolle ab, die sich später ändern kann.
+    </p>
+    <p class="steps">
+      <strong>3PT Attempt Rate / 3PA — 2026-07 von Sticky auf Other runtergestuft:</strong> Cross-Check
+      gegen 1842 historische SL-Spieler (2003–2026), Outcome = spätere NBA-Karriere-Spiele (Basketball-
+      Reference-Datensatz, github.com/sumitrodatta/bball-reference-datasets), kontrolliert per
+      Partialkorrelation für SL-MPG <em>und</em> Draft-Pick-Nummer (n=1756, ≥30 Gesamtminuten). Ergebnis:
+      hohe 3PT-Rate/Volumen in der SL korreliert leicht <em>negativ</em> mit späterer Karrierelänge
+      (partial r ≈ −0,13 bis −0,14, hält auch nach Rausrechnen des Opportunity-Bias). Effekt ist klein
+      (R²≈0,02) — für eine Herabstufung auf Other reicht das, für eine Umkehr ins Icky-Lager oder eine
+      inverse Gewichtung nicht. FTA/36 und FT Attempt Rate waren im selben Test die (schwach) stärksten
+      positiven Prädiktoren.
+    </p>
+    <p class="steps">
+      <strong style="color:var(--icky)">Icky (×0,5):</strong> STL/36, FT%, Game Score, DRE/36, eFG%, 2P%, TS%,
+      Minuten, 3P%, +/-. Meist Prozentwerte oder Composite-Metriken, die bei wenigen Spielen stark
+      schwanken — ein einzelnes heißes oder kaltes Spiel reicht, um sie zu verzerren. Nach der
+      Summer-League→Rookie-Season-R²-Analyse (siehe unten) landet DRE/36 hier, nicht bei Other.
+    </p>
+    <p class="steps">
+      <strong>Vier Korrekturen gegen typische Verzerrungen:</strong>
+    </p>
+    <p class="steps">
+      • <strong>Position:</strong> Bigs bekommen sonst automatisch mehr Rebounds/Blocks als Guards —
+      das hat nichts mit NBA-Potenzial zu tun. Der Vergleich läuft deshalb pro Position, nicht über alle.<br>
+      • <strong>Rebounding zählt nur einmal</strong> statt doppelt (TRB und ORB messen dieselbe Fähigkeit).<br>
+      • <strong>Punkte werden nach Effizienz gewichtet:</strong> viele Punkte bei schlechter Trefferquote
+      zählen weniger.<br>
+      • <strong>Alter wird angezeigt, aber nicht gewertet</strong> — nur als Kontext beim Lesen.
+    </p>
+    <p class="steps">
+      <strong>DRE/36:</strong> Näherung an Kevin Ferrigans "Daily RAPM Estimate" (Nylon
+      Calculus 2015), angewendet auf die Per-36-Raten aus dem CSV statt auf Einzelspiel-Boxscores.
+      Die Farb-Badges (🔴/⚪/🟡/🟢) orientieren sich an David Lees Substack-Regressionsanalyse
+      (College-DRE gegen späteren NBA-Erfolg): unter 5 = Draftability kritisch hinterfragen, 6–9
+      = "Golden Threshold" nahe Replacement Value, über 10 = starkes Signal. Diese Schwellen stammen
+      aus College-Saison-Daten, nicht aus SL-Per-36-Werten — als grober Kompass lesen, nicht als
+      exakt kalibrierte SL-Schwelle. Im direkten Summer-League→Rookie-Season-Vergleich (R²-Chart von
+      Lee, min. 50 SL-Minuten / 250 Rookie-Minuten) fällt DRE/36 allerdings selbst in den
+      Icky-Bereich (R² ≈ 0,15) — schwächer als z.B. AST/36 oder BLK/36. Deshalb zählt es hier mit
+      ×0,5, nicht ×1.
+    </p>
+    <p class="steps">
+      <strong>Sample-Konfidenz-Shrinkage (2026-07, ersetzt reinen Warnhinweis):</strong> Bei sehr wenigen
+      Gesamtminuten (GP × MPG) sind Per-36-Raten kaum mehr als Rauschen — ein einzelner Steal oder
+      Dreier in 12 Minuten kippt die Rate massiv. Bisher gab's dafür nur die ⚠️-Badge als reinen
+      Lesehinweis, ohne dass sich am Score selbst etwas änderte. Jetzt fließt die Stichprobengröße
+      direkt in die Berechnung ein: jeder Z-Score wird mit dem Faktor <code>Gesamtminuten /
+      (Gesamtminuten + 40)</code> multipliziert, bevor er in Sticky-/Other-/Icky-Summe einfließt —
+      inspiriert von einem Bayesian-Prior-Ansatz aus einem unabhängigen Draft-Projektionsmodell
+      (NBA GEM/GEMMAS). Bei einem einzelnen ~16-Minuten-Spiel läuft der Score dadurch nur mit ca.
+      29% Konfidenz, bei 3 Spielen (~60 Min) mit ca. 60%, ab ~150 Gesamtminuten kaum noch gedämpft.
+      Die ⚠️-Badge bleibt als schnelle visuelle Markierung erhalten (Tooltip zeigt jetzt zusätzlich
+      die aktuelle Konfidenz in %), ist aber kein reiner Kosmetik-Hinweis mehr — der Score dahinter
+      ist tatsächlich gedämpft. Bewusst weiterhin <em>kein</em> MPG-Bonus im Score, weil MPG selbst
+      laut Lees Chart kaum mit Rookie-Erfolg korreliert (R² ≈ 0,03) — Shrinkage nutzt Gesamtminuten
+      nur als Konfidenz-Maß, nicht als Qualitätssignal.
+    </p>
+    <p class="steps">
+      <strong>Bewusst nicht eingebaut: COV% (Spiel-zu-Spiel-Konsistenz).</strong> Der nbadraft.app-CSV-Export
+      liefert Season-Aggregate, keine Einzelspiel-Logs — COV% ließe sich daraus nicht ehrlich berechnen.
+      Zudem fand Lee in seiner eigenen Analyse, dass COV% deutlich schwächer mit NBA-Erfolg korreliert
+      als DRE selbst, also kein großer Verlust.
+    </p>
+  </details>
+
+  <div class="card">
+    <h2>2. Modus & Gewichtung</h2>
+    <div class="weights" style="margin-bottom:16px;">
+      <button id="modeStickyBtn" class="modeBtn modeActive">Sticky Score</button>
+      <button id="modeRotationBtn" class="modeBtn">Rotation-Score (Sleeper-Modus)</button>
+    </div>
+    <div id="stickyModePanel">
+      <div class="weights">
+        <div class="weight-field">
+          <label><span class="dot" style="background:var(--sticky)"></span>Sticky Stats</label>
+          <input type="number" id="wSticky" value="1.5" step="0.1">
+        </div>
+        <div class="weight-field">
+          <label><span class="dot" style="background:var(--other)"></span>Other Stats</label>
+          <input type="number" id="wOther" value="1" step="0.1">
+        </div>
+        <div class="weight-field">
+          <label><span class="dot" style="background:var(--icky)"></span>Icky Stats</label>
+          <input type="number" id="wIcky" value="0.5" step="0.1">
+        </div>
+      </div>
+    </div>
+    <div id="rotationModePanel" style="display:none;">
+      <p class="steps">
+        Sucht nicht den vielseitigsten Spieler, sondern den mit <strong>einer klar tragfähigen NBA-Fähigkeit</strong> —
+        das Muster hinter Spielern wie Fred VanVleet, Austin Reaves, T.J. McConnell oder Sam Hauser. Fließt ein:
+        AST/TOV, STL/36 (höher gewichtet — historisch der stärkste Einzelprädiktor für NBA-Erfolg),
+        FT% (nur bei ausreichend Volumen), 3P% (nur bei ausreichend Volumen), Effizienz bei geringem
+        Scoring-Volumen. Ein Bonus, wenn genau <em>eine</em> dieser Kategorien stark heraussticht und der
+        Rest unauffällig ist. Alter wird angezeigt, fließt aber bewusst <strong>nicht</strong> in den Score ein —
+        Daten zu Second-Round-Picks zeigen, dass ältere Senioren sogar seltener in der Liga überleben als
+        jüngere Spieler, "älter = fertiger" war zu pauschal.
+      </p>
+    </div>
+    <button id="calcBtn">Score berechnen</button>
+    <button id="resetBtn" style="background:#fff;color:var(--icky);border:1px solid var(--icky);margin-left:10px;">Gespeicherte Daten löschen</button>
+    <div id="status"></div>
+  </div>
+
+  <div class="card" id="resultsCard" style="display:none;">
+    <h2>3. Ranking</h2>
+    <datalist id="tagOptions">
+      <option value="My Guys">
+      <option value="Targets">
+    </datalist>
+    <div class="weight-field" style="margin-bottom:14px;">
+      <label>Vergleichsgruppe (Rang, Farben & Sortierung beziehen sich nur auf diese Auswahl)</label>
+      <select id="positionFilter" style="padding:8px 10px;border:1px solid var(--border);border-radius:6px;font-size:14px;max-width:260px;">
+        <option value="ALL">Gesamte Klasse</option>
+        <option value="G">Nur Guards</option>
+        <option value="W">Nur Wings</option>
+        <option value="B">Nur Bigs</option>
+      </select>
+    </div>
+    <div class="legend" id="stickyLegend">
+      <span><span class="dot" style="background:var(--sticky)"></span>Sticky-Substats gehen ×1,5 ein</span>
+      <span><span class="dot" style="background:var(--other)"></span>Other ×1</span>
+      <span><span class="dot" style="background:var(--icky)"></span>Icky ×0,5</span>
+    </div>
+    <div class="table-wrap">
+      <table id="resultsTable">
+        <thead><tr id="headRow"></tr></thead>
+        <tbody id="bodyRows"></tbody>
+      </table>
+    </div>
+    <button id="exportBtn" style="margin-top:14px;">Als CSV exportieren (aktuelle Ansicht)</button>
+    <div class="hint">Spaltenkopf anklicken zum Sortieren. Farben: Rot = schwächster, Grün = stärkster Wert der Spalte — bezogen auf die aktuell gewählte Vergleichsgruppe. Spieler ohne Positionszuweisung fallen bei "Nur Guards/Wings/Bigs" automatisch raus — Position vorher in der Tabelle setzen. Spielername anklicken → Spinnendiagramm-Vergleich mit historischen Summer-League-Spielern.</div>
+  </div>
+
+</main>
+
+<script src="js/draft-lookup.js"></script>
+<script src="js/stats.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

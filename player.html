@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MFHFB Sticky Score — Spieler-Vergleich</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header>
+  <div class="header-row">
+    <div>
+      <h1>Spieler-Vergleich</h1>
+      <p>Statprofil-Ähnlichkeit gegen den historischen Summer-League-Katalog (Euklidische Distanz, z-normalisiert)</p>
+    </div>
+    <nav><a href="index.html">← Zurück zum Ranking</a></nav>
+  </div>
+</header>
+
+<main>
+
+  <div class="card player-picker">
+    <h2>Spieler suchen</h2>
+    <input type="text" id="playerSearch" placeholder="Spielername eingeben (min. 2 Zeichen)…" autocomplete="off">
+    <div class="picker-results" id="pickerResults"></div>
+    <div id="pageStatus" class="hint"></div>
+  </div>
+
+  <div class="card">
+    <div class="player-hero" id="playerHero">
+      <div class="empty-state">Lade Daten…</div>
+    </div>
+  </div>
+
+  <div class="card" id="compCard" style="display:none;">
+    <h2>Engste historische Vergleichsspieler</h2>
+    <p class="steps">
+      Berechnet über 11 Shape-Stats (PTS/TRB/ORB/AST/STL/BLK/TOV pro 36, 3PAr, FTr, TS%, eFG%),
+      z-normalisiert gegen alle Spieler mit ≥40 Gesamtminuten im aktuellen Datenbestand. Der
+      "Match"-Wert ist eine grobe visuelle Einordnung der Distanz, keine statistische Kennzahl.
+    </p>
+    <table class="comp-table">
+      <thead>
+        <tr><th>#</th><th>Spieler</th><th>Match</th><th>Team (Jahr)</th><th>Draft-Pick</th><th>Karriere-Spiele</th></tr>
+      </thead>
+      <tbody id="compBody"></tbody>
+    </table>
+    <div class="context-note">
+      <strong>Wichtig zur Team/Draft/Karriere-Spalte:</strong> Diese Spalten sind ein separater,
+      manuell/best-effort gepflegter Zusatz-Datensatz (<code>data/draft-context.json</code>) — sie
+      stammen NICHT aus der Summer-League-CSV und sind für ältere oder undraftete Spieler oft
+      unvollständig ("—"). Der eigentliche Ähnlichkeits-Score links davon basiert ausschließlich auf
+      den Summer-League-Statlinien und ist davon unabhängig zuverlässig.
+    </div>
+  </div>
+
+</main>
+
+<script src="js/draft-lookup.js"></script>
+<script src="js/stats.js"></script>
+<script src="js/similarity.js"></script>
+<script src="js/radar.js"></script>
+<script src="js/player-app.js"></script>
+</body>
+</html>
