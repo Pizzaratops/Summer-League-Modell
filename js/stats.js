@@ -322,5 +322,7 @@ function gradientStyle(key, value, mm){
   let t = (value - mm.min) / (mm.max - mm.min);
   if(dir === "low") t = 1 - t;
   const hue = t * 120;
-  return `style="background:hsl(${hue.toFixed(0)},75%,85%);"`;
+  // Alpha-Blend statt fixem hellem Hintergrund, damit es auch im Dark Mode
+  // über der Kartenfarbe funktioniert statt weiß/hell zu wirken.
+  return `style="background:hsla(${hue.toFixed(0)},70%,55%,0.28);"`;
 }

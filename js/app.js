@@ -246,7 +246,7 @@ function renderRotation(rows){
     if(mm[key].min===null || mm[key].max===null || mm[key].min===mm[key].max) return "";
     const t = (value - mm[key].min) / (mm[key].max - mm[key].min);
     const hue = Math.max(0, Math.min(1, t)) * 120;
-    return `style="background:hsl(${hue.toFixed(0)},75%,85%);"`;
+    return `style="background:hsla(${hue.toFixed(0)},70%,55%,0.28);"`;
   };
 
   body.innerHTML = rows.map(r=>{
@@ -326,59 +326,20 @@ function renderRotation(rows){
   });
 }
 
-function runCalculation(raw, sourceLabel){
-  const statusEl = document.getElementById("status");
-
-  if(!raw || !raw.trim()){
-    statusEl.className = "error";
-    statusEl.textContent = "Keine Daten gefunden — Datei/Text leer?";
-    return;
-  }
-
-  const seasonTag = document.getElementById("seasonTagSelect").value;
-  const {added, skipped, total, headerError} = parsePaste(raw, sourceLabel, seasonTag);
-
-  if(headerError){
-    statusEl.className = "error";
-    statusEl.textContent = "Keine 'Player'-Spalte im Header erkannt. Ist das die richtige CSV (Explorer → Download CSV)?";
-    return;
-  }
-
-  if(added === 0){
-    statusEl.className = "error";
-    statusEl.textContent = `Keine gültigen Zeilen erkannt (${skipped} übersprungen). CSV-Format prüfen.`;
-    return;
-  }
-
-  const rows = currentMode === "rotation" ? computeRotationScores(players, playerMeta) : computeScores(players, playerMeta, currentWeights());
-  render(rows);
-  saveToStorage();
-
-  statusEl.className = "ok";
-  statusEl.textContent = `${added} Zeilen verarbeitet, ${skipped} übersprungen. Insgesamt ${total} Spieler im Pool. Gespeichert im Browser.`;
-}
-
+// Das eigentliche Einspielen von CSV-Daten passiert jetzt auf daten.html
+// (js/data-app.js) — dort landen neue Zeilen im selben localStorage-Pool.
+// "Score neu berechnen" auf dieser Seite berechnet nur noch mit den aktuell
+// gewählten Gewichtungen neu (z.B. nach Ändern der Sticky/Other/Icky-Werte).
 document.getElementById("calcBtn").addEventListener("click", ()=>{
-  const fileInput = document.getElementById("csvFile");
-  const file = fileInput.files[0];
-
-  if(file){
-    const reader = new FileReader();
-    reader.onload = (evt)=>{
-      runCalculation(evt.target.result, file.name);
-      fileInput.value = "";
-    };
-    reader.onerror = ()=>{
-      document.getElementById("status").className = "error";
-      document.getElementById("status").textContent = "Datei konnte nicht gelesen werden.";
-    };
-    reader.readAsText(file);
+  const statusEl = document.getElementById("status");
+  if(Object.keys(players).length === 0){
+    statusEl.className = "error";
+    statusEl.textContent = "Noch keine Daten geladen — unter \"Daten & Methodik\" CSV hochladen oder auf die automatische 2026er-Aktualisierung warten.";
     return;
   }
-
-  const raw = document.getElementById("pasteInput").value;
-  runCalculation(raw, "paste-" + Date.now());
-  document.getElementById("pasteInput").value = "";
+  recomputeAndRender();
+  statusEl.className = "ok";
+  statusEl.textContent = `Score neu berechnet für ${Object.keys(players).length} Spieler.`;
 });
 
 document.getElementById("exportBtn").addEventListener("click", ()=>{

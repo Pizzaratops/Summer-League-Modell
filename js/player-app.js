@@ -48,6 +48,17 @@ function draftContextFor(name, draftContext){
   return draftContext[key] || draftContext[normalizeKeyName(name).replace(/[^a-z ]/g,"")] || null;
 }
 
+// Best-effort Slug für den nbadraft.app-Profillink (nicht garantiert korrekt für
+// jeden Namen — Suffixe wie "Jr."/Akzente können abweichen, deshalb klar als
+// "suchen"-Link beschriftet statt als garantierter Deep-Link).
+function nbaDraftAppSlug(name){
+  return (name || "")
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // Akzente entfernen
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 // ----------------------------------------------------------------------------
 // Stat-basierte Ähnlichkeits-Aufschlüsselung: statt Team/Draft/Karriere zeigen
 // wir pro Comp, in welchen der 11 Shape-Stats sich Ziel- und Vergleichsspieler
@@ -166,6 +177,7 @@ function statBox(value, label, digits=1){
 function renderEmptyState(allNames){
   document.getElementById("playerHero").innerHTML = `<div class="empty-state">Noch kein Spieler ausgewählt — oben suchen oder von der <a class="player-link" href="index.html">Ranking-Tabelle</a> aus verlinken.</div>`;
   document.getElementById("compCard").style.display = "none";
+  document.getElementById("successCard").style.display = "none";
 }
 
 function setupPicker(allNames){
@@ -227,6 +239,7 @@ async function initPlayerPage(){
   if(!targetRaw){
     document.getElementById("playerHero").innerHTML = `<div class="empty-state">Kein Spieler namens "${targetName}" im Datenbestand gefunden. Über die Suche oben nach dem richtigen Namen suchen.</div>`;
     document.getElementById("compCard").style.display = "none";
+    document.getElementById("successCard").style.display = "none";
     return;
   }
 
@@ -239,6 +252,7 @@ async function initPlayerPage(){
   renderHero(targetDerived, comps[0] ? comps[0].row : null);
   renderRoleProfile(targetDerived);
   renderCompTable(targetDerived, comps, draftContext);
+  renderSuccessBadge(comps, draftContext);
 
   if(targetDerived._totalMin < SIMILARITY_MIN_MINUTES){
     statusEl.className = "error";
@@ -271,6 +285,7 @@ function renderHero(target, topComp){
     <div class="info-col">
       <h2 class="player-title">${target.player_name}</h2>
       <p class="player-subtitle">${fmt(target.gp,0)} Spiele · ${fmt(target.mpg,1)} MPG · ${fmt(target._totalMin,0)} Gesamtminuten${target._lowSample ? " ⚠️ kleine Stichprobe" : ""}</p>
+      <a class="external-link" href="https://nbadraft.app/players/${nbaDraftAppSlug(target.player_name)}" target="_blank" rel="noopener">🔗 Scouting-Profil bei DraftGuru suchen ↗</a>
       <div class="statline-grid">
         ${statBox(target.pts,"PTS/36")}
         ${statBox(target.reb,"TRB/36")}
@@ -292,13 +307,17 @@ function renderCompTable(target, comps, draftContext){
   const body = document.getElementById("compBody");
 
   if(!comps.length){
-    body.innerHTML = `<tr><td colspan="6">Keine Vergleichsspieler mit ausreichend Minuten (≥${SIMILARITY_MIN_MINUTES}) im aktuellen Datenbestand gefunden.</td></tr>`;
+    body.innerHTML = `<tr><td colspan="8">Keine Vergleichsspieler mit ausreichend Minuten (≥${SIMILARITY_MIN_MINUTES}) im aktuellen Datenbestand gefunden.</td></tr>`;
     return;
   }
 
   body.innerHTML = comps.map((c, i)=>{
     const r = c.row;
     const { closest, furthest } = describeCompDiffs(target._shapeVector, r._shapeVector);
+    const ctx = draftContextFor(r.player_name, draftContext);
+    const teamCol = ctx ? `${ctx.team || "—"}${ctx.draftYear ? " ('" + String(ctx.draftYear).slice(2) + ")" : ""}` : "—";
+    const pickCol = ctx ? (ctx.draftPick === null || ctx.draftPick === undefined ? "UDFA" : `#${ctx.draftPick}`) : "—";
+    const gamesCol = ctx && ctx.careerGames !== undefined && ctx.careerGames !== null ? ctx.careerGames : "—";
     return `
     <tr>
       <td>${i+1}.</td>
@@ -309,8 +328,52 @@ function renderCompTable(target, comps, draftContext){
       </td>
       <td>${closest.join(", ")}</td>
       <td>${furthest.join(", ")}</td>
+      <td>${teamCol}</td>
+      <td>${pickCol}</td>
+      <td>${gamesCol}</td>
     </tr>`;
   }).join("");
+}
+
+// ----------------------------------------------------------------------------
+// NBA-Erfolgs-Anhaltspunkt: gewichteter Schnitt der Karriere-Spiele der
+// Top-Comps (nur die, für die draft-context.json Daten hat), gewichtet mit
+// dem Match-%. Bewusst kein "Prognose"-Wording — draft-context.json deckt
+// aktuell nur einen kleinen Teil des historischen Pools ab (siehe Methodik-
+// Seite), das Ergebnis ist also nur ein grober, oft unvollständiger Anhaltspunkt.
+// ----------------------------------------------------------------------------
+function renderSuccessBadge(comps, draftContext){
+  const card = document.getElementById("successCard");
+  const el = document.getElementById("successBadge");
+  card.style.display = "block";
+
+  const withCtx = comps
+    .map(c => ({ c, ctx: draftContextFor(c.row.player_name, draftContext) }))
+    .filter(x => x.ctx && x.ctx.careerGames !== undefined && x.ctx.careerGames !== null);
+
+  if(!withCtx.length){
+    el.innerHTML = `
+      <div class="success-badge empty">
+        <div class="num">—</div>
+        <div class="lbl">Für die aktuellen Top-Comps sind noch keine Karriere-Kontextdaten hinterlegt
+        (<code>data/draft-context.json</code>, absichtlich nur teilweise gepflegt). Sobald Team/Pick/
+        Karriere-Spiele für mehr historische Spieler ergänzt werden, erscheint hier automatisch ein
+        Anhaltspunkt.</div>
+      </div>`;
+    return;
+  }
+
+  const totalWeight = withCtx.reduce((s,x)=> s + x.c.matchPct, 0);
+  const weightedGames = withCtx.reduce((s,x)=> s + x.ctx.careerGames * x.c.matchPct, 0) / totalWeight;
+
+  el.innerHTML = `
+    <div class="success-badge">
+      <div class="num">${Math.round(weightedGames)}</div>
+      <div class="lbl">Match-gewichteter Schnitt der NBA-Karriere-Spiele unter den Top-Comps mit
+      hinterlegten Karrieredaten (${withCtx.length} von ${comps.length}) — kein Modell-Output,
+      sondern nur ein grober Anhaltspunkt basierend auf einem noch dünn gepflegten Zusatz-Datensatz.
+      Team/Pick/Karriere-Spiele je Comp stehen unten in der Tabelle.</div>
+    </div>`;
 }
 
 initPlayerPage();
