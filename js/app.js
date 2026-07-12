@@ -46,6 +46,22 @@ async function loadMetaOverridesFromFile(){
   }
 }
 
+// Lädt data/draft-context.json (automatisch von scripts/build-draft-context.py
+// aus dem sumitrodatta/bball-reference-datasets-Mirror erzeugt, ~1.580
+// Spieler) in DRAFT_CONTEXT_DATA (js/stats.js). Dient dort als LETZTER
+// Fallback für Position/Alter/Team — nur für Spieler, für die weder
+// localStorage noch player-meta-overrides.json noch der offizielle
+// 2026er-Draft-Lookup (js/draft-lookup.js) etwas liefert.
+async function loadDraftContextFromFile(){
+  try{
+    const resp = await fetch("data/draft-context.json?_=" + Date.now());
+    if(!resp.ok) return;
+    DRAFT_CONTEXT_DATA = await resp.json();
+  }catch(e){
+    // Datei fehlt oder kein Netzwerk — kein Fehlerzustand, Fallback bleibt einfach leer.
+  }
+}
+
 function downloadMetaOverridesFile(){
   const out = {};
   Object.keys(playerMeta).forEach(name=>{
@@ -207,11 +223,11 @@ function renderSticky(rows){
       <td style="text-align:left">${worstLabel}</td>
       <td>${fmt(r._scoreMinusBest,2)}</td>
       <td>${fmt(r._scoreMinusWorst,2)}</td>
-      <td><select data-player="${safeName}" data-field="position" class="metaInput">${posOptions}</select></td>
+      <td><select data-player="${safeName}" data-field="position" class="metaInput" title="${r._positionAuto ? 'Automatisch aus Draft-Position geschätzt (data/draft-context.json) — bei Bedarf korrigieren' : ''}">${posOptions}</select></td>
       <td><input type="text" style="width:90px" value="${(r._team||"").replace(/"/g,'&quot;')}" placeholder="${r._team ? '' : 'UDFA?'}"
-             title="${r._teamAuto ? 'Automatisch aus offiziellen 2026-Draft-Ergebnissen übernommen — bei Trades manuell korrigieren' : (r._team ? 'Manuell eingetragen' : 'Kein Draft-Match gefunden — vermutlich Undrafted Free Agent, Team manuell eintragen')}"
+             title="${r._teamAuto ? 'Automatisch aus offiziellen 2026-Draft-Ergebnissen übernommen — bei Trades manuell korrigieren' : (r._teamAutoHist ? 'Automatisch geschätzt aus historischem Draft-Team (data/draft-context.json) — kann durch Trades veraltet sein, bei Bedarf korrigieren' : (r._team ? 'Manuell eingetragen' : 'Kein Draft-Match gefunden — vermutlich Undrafted Free Agent, Team manuell eintragen'))}"
              data-player="${safeName}" data-field="team" class="metaInput"></td>
-      <td><input type="number" min="17" max="45" style="width:52px" value="${r._age ?? ""}" data-player="${safeName}" data-field="age" class="metaInput"></td>
+      <td><input type="number" min="17" max="45" style="width:52px" value="${r._age ?? ""}" title="${r._ageAuto ? 'Automatisch geschätzt aus Draft-Jahr + Alter beim Draft (data/draft-context.json) — bei Bedarf korrigieren' : ''}" data-player="${safeName}" data-field="age" class="metaInput"></td>
       <td>${fmt(r.gp,0)}</td>
       <td>${fmt(r.mpg,1)}</td>
       <td ${gradientStyle('pts', r.pts, mm.pts)}>${fmt(r.pts,1)}</td>
@@ -328,11 +344,11 @@ function renderRotation(rows){
       <td ${gradHigh('_z_effLowUsage', r._z_effLowUsage)}>${fmt(r._z_effLowUsage,2)}</td>
       <td ${gradHigh('_rotAgeBonus', r._rotAgeBonus)}>${fmt(r._rotAgeBonus,2)}</td>
       <td>${skillNote}</td>
-      <td><select data-player="${safeName}" data-field="position" class="metaInput">${posOptions}</select></td>
+      <td><select data-player="${safeName}" data-field="position" class="metaInput" title="${r._positionAuto ? 'Automatisch aus Draft-Position geschätzt (data/draft-context.json) — bei Bedarf korrigieren' : ''}">${posOptions}</select></td>
       <td><input type="text" style="width:90px" value="${(r._team||"").replace(/"/g,'&quot;')}" placeholder="${r._team ? '' : 'UDFA?'}"
-             title="${r._teamAuto ? 'Automatisch aus offiziellen 2026-Draft-Ergebnissen übernommen — bei Trades manuell korrigieren' : (r._team ? 'Manuell eingetragen' : 'Kein Draft-Match gefunden — vermutlich Undrafted Free Agent, Team manuell eintragen')}"
+             title="${r._teamAuto ? 'Automatisch aus offiziellen 2026-Draft-Ergebnissen übernommen — bei Trades manuell korrigieren' : (r._teamAutoHist ? 'Automatisch geschätzt aus historischem Draft-Team (data/draft-context.json) — kann durch Trades veraltet sein, bei Bedarf korrigieren' : (r._team ? 'Manuell eingetragen' : 'Kein Draft-Match gefunden — vermutlich Undrafted Free Agent, Team manuell eintragen'))}"
              data-player="${safeName}" data-field="team" class="metaInput"></td>
-      <td><input type="number" min="17" max="45" style="width:52px" value="${r._age ?? ""}" data-player="${safeName}" data-field="age" class="metaInput"></td>
+      <td><input type="number" min="17" max="45" style="width:52px" value="${r._age ?? ""}" title="${r._ageAuto ? 'Automatisch geschätzt aus Draft-Jahr + Alter beim Draft (data/draft-context.json) — bei Bedarf korrigieren' : ''}" data-player="${safeName}" data-field="age" class="metaInput"></td>
       <td>${fmt(r.gp,0)}</td>
       <td>${fmt(r.mpg,1)}</td>
       <td>${fmt(r.ast_to,2)}</td>
@@ -496,6 +512,7 @@ async function autoLoadCurrentSeason(){
   loadFromStorage();
   loadMeta();
   await loadMetaOverridesFromFile();
+  await loadDraftContextFromFile();
 
   const auto = await autoLoadCurrentSeason();
 

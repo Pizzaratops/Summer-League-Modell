@@ -69,6 +69,30 @@ function safeDiv(a,b){
   return a/b;
 }
 
+// Best-effort Fallback-Datenquelle für Position/Alter/Team, wenn weder lokal
+// (localStorage) noch in player-meta-overrides.json noch im aktuellen
+// 2026er-Draft-Lookup (js/draft-lookup.js) etwas hinterlegt ist. Wird von der
+// aufrufenden Seite (js/app.js) per fetch aus data/draft-context.json befüllt
+// — hier nur gelesen, damit dieses Modul seiteneffektfrei bleibt.
+let DRAFT_CONTEXT_DATA = {};
+const CURRENT_SL_SEASON_YEAR = 2026;
+
+function normalizeDraftContextKey(name){
+  return (name || "").trim().toLowerCase().replace(/\s+/g, " ");
+}
+function draftContextLookup(name){
+  return DRAFT_CONTEXT_DATA[normalizeDraftContextKey(name)] || null;
+}
+// data/draft-context.json liefert Basketball-Reference-Positionen (G, F, C,
+// G-F, F-C, ...) — auf das 3er-Schema der App (Guard/Wing/Big) gemappt.
+function draftContextPositionGroup(pos){
+  if(!pos) return null;
+  if(pos === "G") return "G";
+  if(pos === "F" || pos === "G-F" || pos === "F-G") return "W";
+  if(pos === "C" || pos === "F-C" || pos === "C-F") return "B";
+  return null;
+}
+
 // playerMeta: {position, age, tag, team} keyed by Spielername — wird von der aufrufenden
 // Seite verwaltet und hier nur gelesen. lookupDraftTeam kommt aus js/draft-lookup.js.
 function computeDerived(r, playerMeta){
@@ -93,14 +117,28 @@ function computeDerived(r, playerMeta){
             + 0.5*(r.ast ?? 0) - 0.9*(r.fga ?? 0) - 0.35*(r.fta ?? 0) - 1.4*(r.tov ?? 0);
   d.mpg              = r.min;
   const meta = (playerMeta && playerMeta[r.player_name]) || {};
-  d._position = meta.position || null; // "G" | "W" | "B" | null
-  d._age      = (meta.age !== undefined && meta.age !== "") ? parseFloat(meta.age) : null;
-  d._tag      = meta.tag || "";
-  d._team = (meta.team !== undefined && meta.team !== "")
-    ? meta.team
-    : (typeof lookupDraftTeam === "function" ? lookupDraftTeam(r.player_name) : "");
-  d._teamAuto = !(meta.team !== undefined && meta.team !== "")
-    && typeof lookupDraftTeam === "function" && !!lookupDraftTeam(r.player_name);
+  const ctx = draftContextLookup(r.player_name); // Fallback: data/draft-context.json (auto-bbref)
+
+  const posManual = !!meta.position;
+  d._position = posManual ? meta.position : draftContextPositionGroup(ctx && ctx.position); // "G" | "W" | "B" | null
+  d._positionAuto = !posManual && !!d._position;
+
+  const ageManual = meta.age !== undefined && meta.age !== "";
+  const ageFromCtx = (ctx && ctx.ageAtDraft != null && ctx.draftYear != null)
+    ? (ctx.ageAtDraft + (CURRENT_SL_SEASON_YEAR - ctx.draftYear))
+    : null;
+  d._age = ageManual ? parseFloat(meta.age) : ageFromCtx;
+  d._ageAuto = !ageManual && d._age !== null;
+
+  d._tag = meta.tag || "";
+
+  const teamManual = meta.team !== undefined && meta.team !== "";
+  const team2026 = !teamManual && typeof lookupDraftTeam === "function" ? lookupDraftTeam(r.player_name) : "";
+  const teamFromCtx = (!teamManual && !team2026 && ctx && ctx.team) ? ctx.team : "";
+
+  d._team = teamManual ? meta.team : (team2026 || teamFromCtx || "");
+  d._teamAuto = !teamManual && !!team2026;       // aus offiziellem 2026-Draft-Ergebnis (js/draft-lookup.js)
+  d._teamAutoHist = !teamManual && !team2026 && !!teamFromCtx; // aus data/draft-context.json (Draft-Team, ggf. veraltet bei Trades)
   return d;
 }
 

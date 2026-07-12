@@ -108,9 +108,12 @@
       <div class="hint" style="max-width:640px;">Sichert die Position/Alter-Eingaben aus der Tabelle unten als
       <code>player-meta-overrides.json</code>. Einmal im Repo committet (Datei bei GitHub im gleichnamigen Pfad
       unter <code>data/</code> hochladen/überschreiben), gehen diese Eingaben nie wieder verloren — auch nicht,
-      wenn der komplette Browser-Speicher geleert wird. Historische Vergleichsspieler brauchen das nicht mehr:
-      Team/Draft-Pick/Position/Karriere-Spiele für ~1.580 von ihnen kommen jetzt automatisch aus einem
-      öffentlichen Basketball-Reference-Datensatz, siehe "Daten & Methodik".</div>
+      wenn der komplette Browser-Speicher geleert wird. Für Spieler, die bereits in der Basketball-Reference-Historie
+      auftauchen (~1.580 Spieler, z.B. Zwei-Wege-Vertrags-Spieler oder Veteranen in der Summer League), werden
+      Position/Team/Alter jetzt automatisch aus <code>data/draft-context.json</code> vorbefüllt (Hover über das Feld
+      zeigt "automatisch geschätzt" an) — nur echte Undrafted-Neuzugänge ohne Historie brauchen noch Handeintrag.
+      Eine manuelle Eingabe oder eine gespeicherte <code>player-meta-overrides.json</code> hat immer Vorrang vor der
+      Automatik. Details siehe "Daten & Methodik".</div>
     </div>
     <div class="legend" id="stickyLegend">
       <span><span class="dot" style="background:var(--sticky)"></span>Sticky-Substats gehen ×1,5 ein</span>
