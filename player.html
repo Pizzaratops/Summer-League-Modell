@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MFHFB Sticky Score — Spieler-Vergleich</title>
+<script>
+(function(){
+  try{
+    var t = localStorage.getItem('mfhfb_theme');
+    if(t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)){
+      document.documentElement.setAttribute('data-theme','dark');
+    }
+  }catch(e){}
+})();
+</script>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -14,7 +24,10 @@
       <h1>Spieler-Vergleich</h1>
       <p>Statprofil-Ähnlichkeit gegen den historischen Summer-League-Katalog (Euklidische Distanz, z-normalisiert)</p>
     </div>
-    <nav><a href="index.html">← Zurück zum Ranking</a></nav>
+    <div class="header-actions">
+      <nav><a href="index.html">← Zurück zum Ranking</a></nav>
+      <button class="theme-toggle" id="themeToggle" aria-label="Dark Mode umschalten">🌙</button>
+    </div>
   </div>
 </header>
 
@@ -33,6 +46,11 @@
     </div>
   </div>
 
+  <div class="card" id="successCard" style="display:none;">
+    <h2>NBA-Erfolgs-Anhaltspunkt</h2>
+    <div id="successBadge"></div>
+  </div>
+
   <div class="card" id="roleCard">
     <h2>Rollen-Annahme</h2>
     <div id="roleProfile"><p class="hint">Lade Daten…</p></div>
@@ -45,22 +63,26 @@
       z-normalisiert gegen alle Spieler mit ≥40 Gesamtminuten im aktuellen Datenbestand. Der
       "Match"-Wert ist eine grobe visuelle Einordnung der Distanz, keine statistische Kennzahl.
       "Ähnlichste Stats" / "Größte Unterschiede" zeigen, welche der 11 Shape-Stats bei diesem
-      Vergleich die kleinste bzw. größte z-Differenz zum Zielspieler haben.
+      Vergleich die kleinste bzw. größte z-Differenz zum Zielspieler haben. Team/Pick/Karriere-Spiele
+      stammen aus dem separat gepflegten Zusatz-Datensatz (siehe "Daten & Methodik") und sind nur für
+      einen Teil der historischen Spieler hinterlegt.
     </p>
     <table class="comp-table">
       <thead>
-        <tr><th>#</th><th>Spieler</th><th>Match</th><th>Ähnlichste Stats</th><th>Größte Unterschiede</th></tr>
+        <tr><th>#</th><th>Spieler</th><th>Match</th><th>Ähnlichste Stats</th><th>Größte Unterschiede</th><th>Team (Jahr)</th><th>Pick</th><th>Karriere-Spiele</th></tr>
       </thead>
       <tbody id="compBody"></tbody>
     </table>
     <div class="context-note">
-      Alle Werte in dieser Tabelle — Match-% wie Stat-Spalten — stammen ausschließlich aus den
-      Summer-League-Statlinien im aktuellen Datenbestand, nicht aus externen Quellen.
+      Match-% und Stat-Spalten stammen ausschließlich aus den Summer-League-Statlinien im aktuellen
+      Datenbestand. Team/Pick/Karriere-Spiele sind Zusatzkontext aus einer separaten, unvollständigen
+      Quelle — fehlt ein Eintrag, steht "—".
     </div>
   </div>
 
 </main>
 
+<script src="js/theme.js"></script>
 <script src="js/draft-lookup.js"></script>
 <script src="js/stats.js"></script>
 <script src="js/similarity.js"></script>

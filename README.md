@@ -8,19 +8,28 @@ Browser, keine Backend-Abhängigkeit — als GitHub Pages hostbar.
 
 ```
 site/
-  index.html              Haupt-Tool: CSV laden, Sticky/Rotation Score, Ranking-Tabelle
-  player.html             Vergleichsseite: Spinnendiagramm + Top-5-Comps
-  css/style.css           gemeinsames Stylesheet
-  js/stats.js             Kern-Rechenlogik (Parsing, Sticky/Rotation Score) — von beiden Seiten genutzt
+  index.html              Haupt-Tool: Modus/Gewichtung, Sticky/Rotation Score, Ranking-Tabelle
+  daten.html               Daten laden (CSV/Paste) + Methodik-Erklärung (ausgelagert aus index.html)
+  player.html              Vergleichsseite: Spinnendiagramm + Top-5-Comps + Erfolgs-Anhaltspunkt
+  css/style.css            gemeinsames Stylesheet, Pastell-Palette mit Dark-Mode-Variablenset
+  js/theme.js               Dark-/Light-Mode-Toggle (Button-Icon + Klick-Handler; Attribut selbst
+                            wird per Inline-Script im <head> jeder Seite gesetzt, gegen Flackern)
+  js/stats.js              Kern-Rechenlogik (Parsing, Sticky/Rotation Score) — von index.html & player.html genutzt
   js/draft-lookup.js       Team-Zuordnung 2026er Draft-Klasse (informativ, nicht Teil des Scores)
   js/similarity.js         Vergleichs-Engine (z-normalisierte euklidische Distanz)
   js/radar.js              generischer SVG-Spinnendiagramm-Renderer
-  js/app.js                Seiten-Logik index.html (Storage, Tabellen-Rendering)
-  js/player-app.js         Seiten-Logik player.html (Suche, Comp-Rendering)
+  js/app.js                Seiten-Logik index.html (Storage lesen, Tabellen-Rendering, Score neu berechnen)
+  js/data-app.js            Seiten-Logik daten.html (CSV/Paste parsen, in denselben localStorage-Pool schreiben)
+  js/player-app.js         Seiten-Logik player.html (Suche, Comp-Rendering, Erfolgs-Badge, DraftGuru-Link)
   data/historical-pool.json   historischer Katalog (~1.870 Spieler, 2013–2026, aus nbadraft.app-Export)
   data/draft-context.json     BEST-EFFORT Zusatzdaten: Team/Draft-Pick/Karriere-Spiele (siehe unten)
   scripts/csv-to-json.py      regeneriert historical-pool.json aus einem frischen CSV-Export
 ```
+
+`daten.html` und `index.html` teilen sich denselben localStorage-Key
+(`mfhfb_sticky_score_players`) über zwei getrennte, kleine JS-Dateien
+(`data-app.js` schreibt, `app.js` liest) — dadurch bleiben beide Seiten
+synchron, ohne dass `index.html` die Upload-UI selbst enthalten muss.
 
 ## Lokal starten
 
