@@ -48,10 +48,22 @@ function runCalculation(raw, sourceLabel){
 
   const seasonTag = document.getElementById("seasonTagSelect").value;
   const players = dataLoadFromStorage();
+  // Für die aktuelle Saison (2026) gibt's pro Spieler genau EINE aktuelle
+  // Zeile — egal ob sie vom nächtlichen GitHub-Action-Sync oder von einem
+  // manuellen Re-Upload hier kommt. Fixer Key statt Dateiname/Zeitstempel,
+  // damit ein erneutes Hochladen (z.B. frischere Stats am selben Abend)
+  // die alte Zeile ÜBERSCHREIBT statt eine Dublette anzulegen. "auto-2026"
+  // ist bewusst derselbe Key wie beim Auto-Sync in js/app.js — so überschreibt
+  // ein manueller Refresh sauber die letzte Action-Zeile (und umgekehrt).
+  // Für "historisch" bleibt das alte Verhalten (Dateiname/Zeitstempel), weil
+  // dort mehrere unterschiedliche Jahrgänge desselben Spielers nebeneinander
+  // existieren dürfen und nicht kollidieren sollen.
+  const effectiveSourceLabel = seasonTag === "2026" ? "auto-2026" : (sourceLabel || "current");
   rows.forEach(row=>{
     row._seasonTag = seasonTag || "2026";
-    const key = row.player_name + "|" + (sourceLabel || "current");
+    const key = row.player_name + "|" + effectiveSourceLabel;
     players[key] = row;
+
   });
   dataSaveToStorage(players);
 
