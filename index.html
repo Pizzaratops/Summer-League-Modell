@@ -20,11 +20,11 @@
 
 <main>
 
-  <div class="card">
-    <h2>1. Daten laden</h2>
-    <p class="steps">
+  <details class="card">
+    <summary>1. Daten laden <span class="hint">(Fallback/manuell — normalerweise nicht nötig, zum Aufklappen)</span></summary>
+    <p class="steps" style="margin-top:14px;">
       Die 2026er Draft-Klasse wird automatisch täglich von nbadraft.app geladen — du musst dafür
-      nichts tun. Der Bereich unten ist nur noch nötig, um zusätzliche Spieler zu ergänzen,
+      nichts tun. Dieser Bereich ist nur noch nötig, um zusätzliche Spieler zu ergänzen,
       historische Jahrgänge einzuspielen, oder falls die automatische Aktualisierung mal ausfällt.
     </p>
     <div class="weight-field" style="margin-bottom:10px;max-width:320px;">
@@ -39,7 +39,7 @@
     <div class="hint" style="margin-bottom:10px;">— oder —</div>
     <textarea id="pasteInput" placeholder="Alternativ: CSV-Inhalt hier einfügen..."></textarea>
     <div class="hint">Erwartete Spalten (Reihenfolge egal, wird per Header erkannt): Player, GP, MIN, PTS, REB, AST, STL, BLK, TOV, OREB, DREB, PF, +/-, eFG%, FGM, FGA, 3PM, 3PA, FTM, FTA, FG%, 3P%, FT%, GmSc, TS%</div>
-  </div>
+  </details>
 
   <details class="card">
     <summary>Was die Kategorien bedeuten <span class="hint">(zum Aufklappen)</span></summary>
