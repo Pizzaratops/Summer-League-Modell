@@ -38,6 +38,18 @@ ausgeliefert wird.
 
 ## Täglich neue Stats einspeisen
 
+**Automatisch (empfohlen):** `.github/workflows/update-historical-pool.yml`
+lädt täglich um 08:00 UTC automatisch den aktuellen "Alle Jahrgänge"-Export
+von nbadraft.app, regeneriert `data/historical-pool.json` und committet die
+Änderung von selbst — kein manueller Schritt mehr nötig. Einmalig
+einrichten: Repo → Settings → Actions → General → unter "Workflow
+permissions" **"Read and write permissions"** aktivieren (sonst darf die
+Action nicht committen). Danach läuft es von selbst; manuell antriggern
+geht jederzeit über den Tab "Actions" → "Update Summer League Historical
+Pool" → "Run workflow".
+
+**Manuell (Fallback, falls Actions mal nicht laufen sollen):**
+
 1. Im nbadraft.app Summer League Explorer den **gesamten** Export (alle
    Jahrgänge inkl. der neuesten 2026er-Spiele) als CSV ziehen — der Explorer
    kumuliert selbst, du musst keine Tages-Deltas basteln.
@@ -45,9 +57,13 @@ ausgeliefert wird.
    `data/historical-pool.json` neu.
 3. Committen & pushen. Das Vergleichs-Feature auf `player.html` zieht danach
    automatisch die aktuellen Zahlen.
-4. Für das laufende Ranking in `index.html` weiterhin wie gewohnt die CSV
-   über den Upload/Paste-Bereich einspeisen (landet im `localStorage` des
-   Browsers, unabhängig vom historischen Katalog).
+
+**In jedem Fall weiterhin manuell:** Das laufende Ranking in `index.html`
+über den Upload/Paste-Bereich einspeisen (landet im `localStorage` des
+Browsers, unabhängig vom historischen Katalog) — inklusive der einmaligen
+Position/Alter-Zuordnung pro neuem Spieler. Das automatisiert die Action
+nicht, weil diese Felder nie aus der CSV kamen, sondern von dir manuell
+gepflegt werden.
 
 ## Draft-Context erweitern
 
