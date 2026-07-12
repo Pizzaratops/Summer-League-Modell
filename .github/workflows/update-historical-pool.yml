@@ -1,0 +1,45 @@
+name: Update Summer League Historical Pool
+
+# Läuft automatisch täglich und kann zusätzlich manuell über den
+# "Run workflow"-Button im Actions-Tab gestartet werden.
+on:
+  schedule:
+    - cron: "0 8 * * *"   # täglich 08:00 UTC (~10:00 MESZ / ~09:00 MEZ)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update-pool:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repo auschecken
+        uses: actions/checkout@v4
+
+      - name: Aktuellen Summer-League-Export von nbadraft.app laden
+        run: |
+          curl -sSL \
+            "https://nbadraft.app/stats/summer-league/explorer?subject=players&grain=career&mode=per_36&min_gp=1&min_min=5&sort=pts&dir=desc&format=csv" \
+            -o /tmp/export.csv
+          echo "Zeilen im Export:"
+          wc -l /tmp/export.csv
+          # Abbruch, falls der Download leer/kaputt ist, damit wir nie mit
+          # einer fehlerhaften Datei den bestehenden Pool überschreiben.
+          test -s /tmp/export.csv
+          head -1 /tmp/export.csv | grep -qi "^Player," || (echo "Unerwartetes CSV-Format, breche ab" && exit 1)
+
+      - name: In historical-pool.json konvertieren
+        run: python3 scripts/csv-to-json.py /tmp/export.csv
+
+      - name: Änderungen committen, falls vorhanden
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/historical-pool.json
+          if git diff --cached --quiet; then
+            echo "Keine Änderungen am historischen Pool."
+          else
+            git commit -m "Auto-Update historical-pool.json ($(date -u +%Y-%m-%d))"
+            git push
+          fi
