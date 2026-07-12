@@ -116,33 +116,78 @@ def save_json(path, data):
 
 
 def collect_ids_for_year(year):
-    """Sammelt Name -> RealGM-ID Zuordnungen aus der Summer-League-Statsseite eines Jahres."""
+    """Sammelt Name -> RealGM-ID Zuordnungen aus der Summer-League-Statsseite eines Jahres.
+
+    ACHTUNG: erfasst nur Spieler, die in DIESEM Jahr schon Summer-League-
+    Spielzeit haben. Aktuelle Draftees, die noch nicht (oder von RealGM noch
+    nicht erfasst) in der Summer League gespielt haben, fehlen hier -- dafuer
+    siehe collect_ids_from_draft_results().
+    """
     url = f"{BASE}/nba/stats/{year}/Averages/Qualified/points/All/desc/1/Summer_League"
     html = fetch(url)
     if not html:
-        log(f"  Konnte Statsseite fuer {year} nicht laden, ueberspringe.")
+        log(f"  Konnte SL-Statsseite fuer {year} nicht laden, ueberspringe.")
         return {}
     mapping = {}
     for slug, pid, display_name in PLAYER_LINK_RE.findall(html):
         mapping[normalize_key(display_name)] = pid
-    log(f"  {year}: {len(mapping)} Spieler-IDs gefunden.")
+    log(f"  SL-Stats {year}: {len(mapping)} Spieler-IDs gefunden.")
     time.sleep(random.uniform(*REQUEST_DELAY_RANGE))
     return mapping
 
 
-def build_id_cache(years, existing_cache):
-    """Erweitert den ID-Cache um fehlende Jahre (Cache wird nie geloescht, nur ergaenzt)."""
+def collect_ids_from_draft_results(year):
+    """Sammelt Name -> RealGM-ID Zuordnungen aus den Draftergebnissen eines Jahres.
+
+    Unabhaengig von Summer-League-Aktivitaet -- diese Seite ist direkt nach
+    dem Draft selbst befuellt (z.B. past_drafts/2026 kurz nach der Draft-
+    Nacht), deshalb die bevorzugte Quelle fuer den AKTUELLEN Draft-Jahrgang,
+    bei dem die Summer-League-Stats evtl. noch nicht online sind.
+    """
+    url = f"{BASE}/nba/draft/past_drafts/{year}"
+    html = fetch(url)
+    if not html:
+        log(f"  Konnte Draftergebnisse fuer {year} nicht laden, ueberspringe.")
+        return {}
+    mapping = {}
+    for slug, pid, display_name in PLAYER_LINK_RE.findall(html):
+        mapping[normalize_key(display_name)] = pid
+    log(f"  Draft {year}: {len(mapping)} Spieler-IDs gefunden.")
+    time.sleep(random.uniform(*REQUEST_DELAY_RANGE))
+    return mapping
+
+
+def build_id_cache(years, existing_cache, current_year=None):
+    """Erweitert den ID-Cache um fehlende Jahre (Cache wird nie geloescht, nur ergaenzt).
+
+    Fuer alle Jahre: SL-Stats-Seite. Zusaetzlich fuer das aktuelle Jahr
+    (current_year, typischerweise das laufende Draftjahr): auch die
+    Draftergebnis-Seite, da dort auch Spieler ohne SL-Auftritt (noch) drin
+    sind. Bei Namensgleichheit gewinnt die SL-Stats-ID (spezifischer),
+    Draft-Ergebnis-ID ist nur Fallback.
+    """
     cache = dict(existing_cache)
     done_years = set(cache.get("_years_done", []))
+    done_draft_years = set(cache.get("_draft_years_done", []))
     id_map = cache.get("ids", {})
+
     for year in years:
         if year in done_years:
             continue
         new_ids = collect_ids_for_year(year)
-        id_map.update(new_ids)
+        for k, v in new_ids.items():
+            id_map[k] = v
         done_years.add(year)
+
+    if current_year is not None and current_year not in done_draft_years:
+        draft_ids = collect_ids_from_draft_results(current_year)
+        for k, v in draft_ids.items():
+            id_map.setdefault(k, v)  # nur auffuellen, SL-Daten (falls vorhanden) haben Vorrang
+        done_draft_years.add(current_year)
+
     cache["ids"] = id_map
     cache["_years_done"] = sorted(done_years)
+    cache["_draft_years_done"] = sorted(done_draft_years)
     return cache
 
 
@@ -247,7 +292,7 @@ def main():
         return
 
     years = list(range(args.start_year, args.end_year + 1))
-    id_cache = build_id_cache(years, id_cache)
+    id_cache = build_id_cache(years, id_cache, current_year=args.end_year)
     id_map = id_cache["ids"]
 
     processed = 0
