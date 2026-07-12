@@ -1,0 +1,41 @@
+name: Update Current Season CSV (2026 Draft Class)
+
+# Läuft automatisch täglich und kann zusätzlich manuell über den
+# "Run workflow"-Button im Actions-Tab gestartet werden.
+on:
+  schedule:
+    - cron: "15 8 * * *"   # täglich 08:15 UTC, kurz nach dem historischen Pool
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  update-current-season:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repo auschecken
+        uses: actions/checkout@v4
+
+      - name: 2026er-Draft-Klasse (2026 Summer League) von nbadraft.app laden
+        run: |
+          mkdir -p data
+          curl -sSL \
+            "https://nbadraft.app/stats/summer-league/explorer?subject=players&grain=career&mode=per_36&min_gp=1&min_min=5&sort=pts&dir=desc&year_min=2026&draft_class=2026&format=csv" \
+            -o data/current-season-2026.csv
+          echo "Zeilen im Export:"
+          wc -l data/current-season-2026.csv
+          test -s data/current-season-2026.csv
+          head -1 data/current-season-2026.csv | grep -qi "^Player," || (echo "Unerwartetes CSV-Format, breche ab" && exit 1)
+
+      - name: Änderungen committen, falls vorhanden
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/current-season-2026.csv
+          if git diff --cached --quiet; then
+            echo "Keine Änderungen an der 2026er-Saison-CSV."
+          else
+            git commit -m "Auto-Update current-season-2026.csv ($(date -u +%Y-%m-%d))"
+            git push
+          fi
