@@ -20,6 +20,53 @@ function loadMeta(){
   }catch(e){ playerMeta = {}; }
 }
 
+// Laedt data/player-meta-overrides.json (im Repo committet, siehe daten.html
+// "Position/Alter sichern") als Basiswert fuer Position/Alter/Team — fuellt
+// NUR Felder auf, die lokal (localStorage) noch nicht gesetzt sind. So bleibt
+// die Zuordnung erhalten, selbst wenn jemand den kompletten Browser-Speicher
+// loescht (nicht nur den "Gespeicherte Daten loeschen"-Knopf hier auf der
+// Seite, der META_KEY ohnehin nicht anfasst).
+async function loadMetaOverridesFromFile(){
+  try{
+    const resp = await fetch("data/player-meta-overrides.json?_=" + Date.now());
+    if(!resp.ok) return;
+    const fileMeta = await resp.json();
+    Object.keys(fileMeta).forEach(name=>{
+      if(name.startsWith("_")) return;
+      playerMeta[name] = playerMeta[name] || {};
+      Object.keys(fileMeta[name]).forEach(field=>{
+        const cur = playerMeta[name][field];
+        if(cur === undefined || cur === null || cur === ""){
+          playerMeta[name][field] = fileMeta[name][field];
+        }
+      });
+    });
+  }catch(e){
+    // Datei fehlt (z.B. lokal ohne Server) oder kein Netzwerk — kein Fehlerzustand.
+  }
+}
+
+function downloadMetaOverridesFile(){
+  const out = {};
+  Object.keys(playerMeta).forEach(name=>{
+    const m = playerMeta[name];
+    if(!m) return;
+    const clean = {};
+    if(m.position) clean.position = m.position;
+    if(m.age) clean.age = m.age;
+    if(Object.keys(clean).length) out[name] = clean;
+  });
+  const blob = new Blob([JSON.stringify(out, null, 2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "player-meta-overrides.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 function saveToStorage(){
   try{
     localStorage.setItem(STORAGE_KEY, JSON.stringify(players));
@@ -425,6 +472,9 @@ document.getElementById("resetBtn").addEventListener("click", ()=>{
   document.getElementById("status").textContent = "Gespeicherte Daten gelöscht.";
 });
 
+const metaExportBtn = document.getElementById("metaExportBtn");
+if(metaExportBtn) metaExportBtn.addEventListener("click", downloadMetaOverridesFile);
+
 async function autoLoadCurrentSeason(){
   try{
     const resp = await fetch("data/current-season-2026.csv?_=" + Date.now());
@@ -445,6 +495,7 @@ async function autoLoadCurrentSeason(){
 (async function init(){
   loadFromStorage();
   loadMeta();
+  await loadMetaOverridesFromFile();
 
   const auto = await autoLoadCurrentSeason();
 

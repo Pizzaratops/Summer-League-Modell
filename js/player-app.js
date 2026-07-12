@@ -307,7 +307,7 @@ function renderCompTable(target, comps, draftContext){
   const body = document.getElementById("compBody");
 
   if(!comps.length){
-    body.innerHTML = `<tr><td colspan="8">Keine Vergleichsspieler mit ausreichend Minuten (≥${SIMILARITY_MIN_MINUTES}) im aktuellen Datenbestand gefunden.</td></tr>`;
+    body.innerHTML = `<tr><td colspan="9">Keine Vergleichsspieler mit ausreichend Minuten (≥${SIMILARITY_MIN_MINUTES}) im aktuellen Datenbestand gefunden.</td></tr>`;
     return;
   }
 
@@ -317,6 +317,7 @@ function renderCompTable(target, comps, draftContext){
     const ctx = draftContextFor(r.player_name, draftContext);
     const teamCol = ctx ? `${ctx.team || "—"}${ctx.draftYear ? " ('" + String(ctx.draftYear).slice(2) + ")" : ""}` : "—";
     const pickCol = ctx ? (ctx.draftPick === null || ctx.draftPick === undefined ? "UDFA" : `#${ctx.draftPick}`) : "—";
+    const posCol = ctx && ctx.position ? ctx.position : "—";
     const gamesCol = ctx && ctx.careerGames !== undefined && ctx.careerGames !== null ? ctx.careerGames : "—";
     return `
     <tr>
@@ -328,6 +329,7 @@ function renderCompTable(target, comps, draftContext){
       </td>
       <td>${closest.join(", ")}</td>
       <td>${furthest.join(", ")}</td>
+      <td>${posCol}</td>
       <td>${teamCol}</td>
       <td>${pickCol}</td>
       <td>${gamesCol}</td>

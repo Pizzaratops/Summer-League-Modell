@@ -148,13 +148,17 @@
       ist die euklidische Distanz zwischen ihren Vektoren — kein Positions-Tag nötig, das Statprofil
       selbst impliziert die Rolle (ein Big mit vielen Rebounds/Blocks landet automatisch bei anderen
       Bigs). Auf der Vergleichsseite zeigt jede Comp zusätzlich, sofern vorhanden, Team/Draft-Pick/
-      Karriere-Spiele aus <code>data/draft-context.json</code> — ein bewusst nur teilweise gepflegter
-      Zusatz-Datensatz, siehe README im Repo für den Erweiterungs-Workflow.
+      Karriere-Spiele aus <code>data/draft-context.json</code> — für ~1.580 von ~1.870 historischen
+      Spielern automatisch befüllt aus dem öffentlichen GitHub-Mirror
+      <a class="player-link" href="https://github.com/sumitrodatta/bball-reference-datasets" target="_blank" rel="noopener">sumitrodatta/bball-reference-datasets</a>
+      (Basketball-Reference-Daten, wöchentlich neu abgeglichen). Der jeweils aktuellste Draft-Jahrgang
+      fehlt dort systembedingt ein paar Monate lang, siehe README.
     </p>
     <p class="steps">
       <strong>Bekannte Grenzen:</strong> Die Engine sieht nur Summer-League-Boxscore-Raten — keine
-      Athletik, Verletzungshistorie oder Scouting-Einschätzung. <code>draft-context.json</code> ist
-      unvollständig — Team/Pick/Karriere-Spalten sind Kontext, keine vollständige Datenbasis.
+      Athletik, Verletzungshistorie oder Scouting-Einschätzung. <code>draft-context.json</code> deckt
+      automatisch ~85% des historischen Pools ab, nicht 100% — Pos./Team/Pick-Spalten sind verlässlicher
+      Kontext für die meisten, aber nicht alle Comps.
     </p>
   </div>
 

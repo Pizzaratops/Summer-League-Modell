@@ -22,8 +22,10 @@ site/
   js/data-app.js            Seiten-Logik daten.html (CSV/Paste parsen, in denselben localStorage-Pool schreiben)
   js/player-app.js         Seiten-Logik player.html (Suche, Comp-Rendering, Erfolgs-Badge, DraftGuru-Link)
   data/historical-pool.json   historischer Katalog (~1.870 Spieler, 2013–2026, aus nbadraft.app-Export)
-  data/draft-context.json     BEST-EFFORT Zusatzdaten: Team/Draft-Pick/Karriere-Spiele (siehe unten)
+  data/draft-context.json     Pos./Team/Draft-Pick/Karriere-Spiele für Vergleichsspieler (automatisch, ~85% Abdeckung — siehe unten)
+  data/player-meta-overrides.json  Position/Alter-Basiswerte für die aktuelle Draft-Klasse (Export-Knopf in index.html)
   scripts/csv-to-json.py      regeneriert historical-pool.json aus einem frischen CSV-Export
+  scripts/build-draft-context.py  befüllt draft-context.json aus github.com/sumitrodatta/bball-reference-datasets
 ```
 
 `daten.html` und `index.html` teilen sich denselben localStorage-Key
@@ -81,35 +83,86 @@ Action ausfällt.
 3. Committen & pushen. Das Vergleichs-Feature auf `player.html` zieht danach
    automatisch die aktuellen Zahlen.
 
-**Weiterhin manuell (nicht automatisierbar):** Position/Alter/Draft-Pick pro
-neuem Spieler in `index.html` einmalig zuordnen (Dropdown-Felder) — das war
-nie Teil der CSV und wird von dir gepflegt. Persistiert dauerhaft im
-`localStorage` des Browsers.
+**Aktuelle Draft-Klasse (Position/Alter):** In `index.html` einmalig pro
+Spieler zuordnen (Dropdown-Felder). Persistiert im `localStorage` des
+Browsers — und lässt sich zusätzlich über den Knopf "💾 Position/Alter als
+Datei sichern" als `data/player-meta-overrides.json` exportieren und ins
+Repo committen. Danach übersteht die Zuordnung auch das komplette Leeren des
+Browser-Speichers, weil sie beim Seitenstart als Basiswert nachgeladen wird.
+Grund, warum das nicht automatisch geht: Basketball-Reference & Co. tragen
+den jeweils aktuellsten Draft-Jahrgang typischerweise erst mit einigen
+Wochen/Monaten Verzug in ihre öffentlichen Datensätze ein (Stand dieses
+Repos: der 2026er Draft fehlt in der unten verlinkten Quelle noch) — für die
+laufende Saison gibt es also (noch) keine saubere automatisierbare Quelle.
 
-## Draft-Context erweitern
+## Draft-Context (historischer Vergleichspool)
 
 `data/draft-context.json` ist bewusst **getrennt** vom eigentlichen
-Ähnlichkeits-Score — er liefert nur die informativen Spalten "Team (Jahr)",
-"Draft-Pick" und "Karriere-Spiele" in der Vergleichstabelle. Die
-Summer-League-CSV enthält diese Daten NICHT, deshalb ist die Datei aktuell
-nur mit 2 verifizierten Beispiel-Einträgen (Jarrett Allen, Deandre Ayton)
-gefüllt statt für den ganzen ~1.870-Spieler-Katalog.
+Ähnlichkeits-Score — er liefert nur die informativen Spalten "Pos.",
+"Team (Jahr)", "Draft-Pick" und "Karriere-Spiele" in der Vergleichstabelle
+auf `player.html`. Die Summer-League-CSV enthält diese Daten selbst nicht.
 
-Schema pro Eintrag (Key = Spielername, `trim().toLowerCase()`):
+Wird automatisch befüllt von `scripts/build-draft-context.py`, das die
+fertigen CSV-Tabellen von
+[github.com/sumitrodatta/bball-reference-datasets](https://github.com/sumitrodatta/bball-reference-datasets)
+lädt — ein öffentlich gepflegter GitHub-Mirror der Basketball-Reference-
+Tabellen (Draft-Historie, Spieler-Bio, Saison-für-Saison-Statlinien). Läuft
+wöchentlich über `.github/workflows/update-draft-context.yml`, deckt
+aktuell **~1.580 von ~1.870** historischen Spielern automatisch ab.
+
+**Warum kein direktes Scraping:** Zwei frühere Anläufe sind daran
+gescheitert, dass GitHub-Actions-Runner aus Rechenzentrums-IP-Bereichen
+laufen, die von Bot-Schutz-Systemen aktiv geblockt werden:
+- `basketball.realgm.com` — konsequentes `403 Forbidden` auf jede Anfrage
+  (CrowdSec o.ä.), kein Parsing-Problem, sondern eine bewusste Netzwerksperre.
+- `stats.nba.com` (offizielle NBA-API) — technisch erreichbar, aber
+  Sonder-Header-abhängig (Referer/Origin/x-nba-stats-*) und nicht offiziell
+  für Drittzugriffe gedacht; Verlässlichkeit aus CI-Umgebungen unklar.
+
+Der jetzige Ansatz umgeht beides: `raw.githubusercontent.com` liefert
+fertige, bereits von den bball-reference-datasets-Maintainern selbst
+gepflegte CSV-Dateien per einfachem HTTPS-GET aus — kein Bot-Schutz, keine
+Sonder-Header, kein Namens-Scraping gegen eine Fanseite.
+
+**Bekannte Lücke:** Der Quell-Datensatz hinkt dem echten NBA-Draft um einige
+Monate hinterher — der jeweils aktuellste Draft-Jahrgang (aktuell: 2026)
+fehlt dort, bis die Maintainer nachziehen. Für die aktuelle Saison bleibt
+Team-Zuordnung deshalb weiterhin `js/draft-lookup.js` (hardcodierte Liste),
+Position/Alter siehe `data/player-meta-overrides.json` oben.
+
+Warum keine Ableitung des Draft-Jahrs aus der Anzahl/dem Jahr der
+Summer-League-Spiele (Idee: "1 Spiel → Draft-Jahr = Erscheinungsjahr"):
+funktioniert nur für Spieler, die genau einmal und im Draft-Jahr selbst in
+der Summer League aufgetaucht sind — viele Spieler spielen mehrere
+Jahrgänge SL (Two-Way-Verträge, Comeback-Versuche, verletzungsbedingt
+verschobene Rookie-Saison), und die von `csv-to-json.py` erzeugte
+`historical-pool.json` aggregiert ohnehin über alle SL-Jahrgänge eines
+Spielers hinweg (keine Jahres-Spalte pro Zeile). Die Heuristik wäre also für
+einen unbekannten, vermutlich nicht kleinen Anteil der Spieler schlicht
+falsch — echte Draft-Pick-History (wie oben) ist die zuverlässigere Quelle,
+wo verfügbar; für den Rest lieber "—" als eine geratene Zahl.
+
+Schema pro Eintrag (Key = Spielername exakt wie im eigenen Datenbestand,
+nur `trim().toLowerCase()`):
 
 ```json
-"spielername": {"team": "Team-Name", "draftYear": 2019, "draftPick": 22, "careerGames": 350}
+"spielername": {
+  "_source": "auto-bbref",
+  "team": "Team-Name", "draftYear": 2019, "draftRound": 1, "draftPick": 22,
+  "position": "F-C", "ageAtDraft": 19, "college": "Duke", "careerGames": 350
+}
 ```
 
-Für Undrafted-Spieler: `"draftPick": null`. Fehlt ein Eintrag komplett, zeigt
-die Vergleichstabelle einfach "—" — das Tool bricht dabei nicht.
+Einträge mit `"_source": "auto-bbref"` werden bei jedem Workflow-Lauf
+automatisch neu geschrieben. Alles andere (z.B. von Hand nachgetragene
+Einträge ohne dieses Feld) bleibt beim nächsten Lauf unangetastet — auch
+wenn du `_source` einfach weglässt. Für Undrafted-Spieler mit NBA-Laufbahn:
+`"draftPick": null`. Fehlt ein Eintrag komplett, zeigt die Vergleichstabelle
+"—" — das Tool bricht dabei nicht.
 
-Zum Erweitern eignen sich die Draft-Class-Seiten auf basketball-reference.com
-(ein Seitenaufruf pro Jahrgang liefert Team/Pick/Karriere-Spiele für alle 60
-Picks dieses Jahres). Undrafted-Spieler mit NBA-Spielen lassen sich einzeln
-nachtragen. Das ist der einzige Teil des Tools, der laufende manuelle Pflege
-braucht — alles andere (Sticky Score, Rotation Score, Ähnlichkeits-Engine)
-funktioniert vollautomatisch aus der Summer-League-CSV.
+Manueller Nachtrag (z.B. für den aktuellen Draft-Jahrgang, sobald relevant)
+bleibt weiterhin möglich — einfach ohne `"_source": "auto-bbref"` eintragen,
+dann fasst der automatische Lauf den Eintrag nicht mehr an.
 
 ## Wie die Vergleichs-Engine funktioniert
 
@@ -131,7 +184,9 @@ Distanzwurf — konsistent mit dem ursprünglichen Testergebnis.
 - Die Ähnlichkeits-Engine sieht nur Summer-League-Boxscore-Raten — keine
   Athletik, Verletzungshistorie oder Scouting-Einschätzung (gleiche Grenze
   wie beim Sticky Score selbst, siehe `Sticky-Score-Erklaerung.md`).
-- `draft-context.json` ist unvollständig (s.o.) — behandle die
-  Team/Pick/Karriere-Spalten als Kontext, nicht als vollständige Datenbasis.
+- `draft-context.json` deckt ~85% des historischen Pools ab (s.o.), nicht
+  100% — behandle die Pos./Team/Pick/Karriere-Spalten weiterhin als Kontext,
+  nicht als lückenlose Datenbasis. Der aktuelle Draft-Jahrgang fehlt dort
+  systembedingt bis die Quelle nachzieht.
 - Beim Öffnen direkt als `file://` lädt `player.html` die JSON-Dateien nicht
   (CORS) — lokalen Server oder GitHub Pages nutzen.

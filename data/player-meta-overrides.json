@@ -1,0 +1,3 @@
+{
+  "_readme": "Committete Position/Alter-Basiswerte für die aktuelle Draft-Klasse, exportiert über den 'Position/Alter als Datei sichern'-Knopf auf index.html. Wird beim Seitenstart als Basiswert geladen (localStorage-Eingaben aus der aktuellen Session haben Vorrang, falls vorhanden). Für historische Vergleichsspieler siehe stattdessen data/draft-context.json."
+}
