@@ -38,15 +38,29 @@ ausgeliefert wird.
 
 ## Täglich neue Stats einspeisen
 
-**Automatisch (empfohlen):** `.github/workflows/update-historical-pool.yml`
-lädt täglich um 08:00 UTC automatisch den aktuellen "Alle Jahrgänge"-Export
-von nbadraft.app, regeneriert `data/historical-pool.json` und committet die
-Änderung von selbst — kein manueller Schritt mehr nötig. Einmalig
-einrichten: Repo → Settings → Actions → General → unter "Workflow
-permissions" **"Read and write permissions"** aktivieren (sonst darf die
-Action nicht committen). Danach läuft es von selbst; manuell antriggern
-geht jederzeit über den Tab "Actions" → "Update Summer League Historical
-Pool" → "Run workflow".
+**Beides läuft jetzt automatisch, ohne dass du etwas hochladen musst:**
+
+- `.github/workflows/update-historical-pool.yml` (08:00 UTC) — lädt den vollen
+  "Alle Jahrgänge"-Export und regeneriert `data/historical-pool.json` (Vergleichsmotor).
+- `.github/workflows/update-current-season.yml` (08:15 UTC) — lädt gefiltert nur die
+  2026er Draft-Klasse aus der 2026er Summer League
+  (`...&year_min=2026&draft_class=2026&format=csv`) und speichert sie als
+  `data/current-season-2026.csv`. `index.html` lädt diese Datei automatisch beim
+  Öffnen der Seite (`autoLoadCurrentSeason()` in `js/app.js`) — kein Paste/Upload mehr nötig.
+
+Einmalig einrichten: Repo → Settings → Actions → General → unter "Workflow
+permissions" **"Read and write permissions"** aktivieren (sonst dürfen die
+Actions nicht committen). Danach manuell antriggern zum Testen: Tab "Actions" →
+gewünschten Workflow auswählen → "Run workflow".
+
+**Wichtig beim Umstieg:** Falls du vorher schon manuell 2026er-Daten hochgeladen
+hattest, einmal auf "Gespeicherte Daten löschen" klicken, damit die alten
+manuellen Einträge nicht doppelt neben den neuen automatischen auftauchen
+(unterschiedliche interne Quellenkennung, würde sonst zu Doppelzeilen führen).
+
+**Der Upload/Paste-Bereich in `index.html` bleibt bestehen** — für zusätzliche
+Spieler, Korrekturen, oder falls nbadraft.app den Filter mal ändert und die
+Action ausfällt.
 
 **Manuell (Fallback, falls Actions mal nicht laufen sollen):**
 
@@ -58,12 +72,10 @@ Pool" → "Run workflow".
 3. Committen & pushen. Das Vergleichs-Feature auf `player.html` zieht danach
    automatisch die aktuellen Zahlen.
 
-**In jedem Fall weiterhin manuell:** Das laufende Ranking in `index.html`
-über den Upload/Paste-Bereich einspeisen (landet im `localStorage` des
-Browsers, unabhängig vom historischen Katalog) — inklusive der einmaligen
-Position/Alter-Zuordnung pro neuem Spieler. Das automatisiert die Action
-nicht, weil diese Felder nie aus der CSV kamen, sondern von dir manuell
-gepflegt werden.
+**Weiterhin manuell (nicht automatisierbar):** Position/Alter/Draft-Pick pro
+neuem Spieler in `index.html` einmalig zuordnen (Dropdown-Felder) — das war
+nie Teil der CSV und wird von dir gepflegt. Persistiert dauerhaft im
+`localStorage` des Browsers.
 
 ## Draft-Context erweitern
 

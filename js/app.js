@@ -464,12 +464,39 @@ document.getElementById("resetBtn").addEventListener("click", ()=>{
   document.getElementById("status").textContent = "Gespeicherte Daten gelöscht.";
 });
 
-(function init(){
+async function autoLoadCurrentSeason(){
+  try{
+    const resp = await fetch("data/current-season-2026.csv?_=" + Date.now());
+    if(!resp.ok) return { loaded: false };
+    const text = await resp.text();
+    if(!text || !text.trim()) return { loaded: false };
+    const { added, headerError } = parsePaste(text, "auto-2026", "2026");
+    if(headerError) return { loaded: false };
+    return { loaded: true, added };
+  }catch(e){
+    // Kein Netzwerk / Datei fehlt (z.B. lokal ohne Server, oder Action lief
+    // noch nicht) — kein Fehler, Seite funktioniert dann einfach nur mit
+    // manuell eingespielten Daten weiter.
+    return { loaded: false };
+  }
+}
+
+(async function init(){
   loadFromStorage();
   loadMeta();
+
+  const auto = await autoLoadCurrentSeason();
+
   if(Object.keys(players).length > 0){
     recomputeAndRender();
     document.getElementById("status").className = "ok";
-    document.getElementById("status").textContent = `${Object.keys(players).length} Spieler aus gespeicherten Daten geladen.`;
+    const autoNote = auto.loaded
+      ? ` (davon automatisch von nbadraft.app aktualisiert: ${auto.added} Spieler der 2026er Draft-Klasse)`
+      : "";
+    document.getElementById("status").textContent = `${Object.keys(players).length} Spieler geladen.${autoNote}`;
+  }else if(auto.loaded){
+    recomputeAndRender();
+    document.getElementById("status").className = "ok";
+    document.getElementById("status").textContent = `${Object.keys(players).length} Spieler automatisch von nbadraft.app geladen (2026er Draft-Klasse).`;
   }
 })();
