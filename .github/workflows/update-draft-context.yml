@@ -1,0 +1,75 @@
+name: Update Draft Context (RealGM)
+
+# Laeuft taeglich, versetzt zu den beiden anderen Workflows, damit nicht alle
+# drei gleichzeitig Netzwerkzugriffe machen. Kann zusaetzlich manuell ueber
+# den "Run workflow"-Button gestartet werden -- ZUERST mit dry_run=true und
+# einer kleinen only-Liste testen, bevor der volle Lauf scharfgeschaltet wird.
+on:
+  schedule:
+    - cron: "30 8 * * *"   # taeglich 08:30 UTC, nach den anderen beiden
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Nur loggen, nichts committen (true/false)"
+        required: false
+        default: "false"
+      only:
+        description: "Kommagetrennte Namensliste zum gezielten Testen (leer = normaler Lauf)"
+        required: false
+        default: ""
+      limit:
+        description: "Max. neue Spieler in diesem Lauf"
+        required: false
+        default: "80"
+
+permissions:
+  contents: write
+
+jobs:
+  update-draft-context:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repo auschecken
+        uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Scraper ausfuehren
+        run: |
+          ARGS=""
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+          if [ -n "${{ github.event.inputs.only }}" ]; then
+            ARGS="$ARGS --only \"${{ github.event.inputs.only }}\""
+          fi
+          if [ -n "${{ github.event.inputs.limit }}" ]; then
+            ARGS="$ARGS --limit ${{ github.event.inputs.limit }}"
+          fi
+          echo "Aufruf: python3 scripts/scrape-draft-context.py $ARGS"
+          eval python3 scripts/scrape-draft-context.py $ARGS
+
+      - name: Debug-Ausgabe anzeigen
+        if: always()
+        run: |
+          if [ -f data/draft-context.debug.json ]; then
+            echo "--- draft-context.debug.json (letzter Lauf) ---"
+            cat data/draft-context.debug.json
+          fi
+
+      - name: Änderungen committen, falls vorhanden
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/draft-context.json data/realgm-id-cache.json
+          rm -f data/draft-context.debug.json
+          if git diff --cached --quiet; then
+            echo "Keine Änderungen am Draft-Context."
+          else
+            git commit -m "Auto-Update draft-context.json via RealGM ($(date -u +%Y-%m-%d))"
+            git push
+          fi
