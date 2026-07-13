@@ -1,5 +1,5 @@
 {
-  "_readme": "Best-effort, MANUELL gepflegter Zusatz-Datensatz fuer Team/Draft-Pick/Karriere-Spiele-Kontext bei Vergleichsspielern. NICHT Teil der eigentlichen Sticky-Score-Berechnung. Key = Spielername normalisiert (trim + lowercase, siehe normalizeKeyName in js/player-app.js). Nur 2 Eintraege als verifizierte Demo enthalten (Stand Juli 2026, basketball-reference.com) - fuer flaechendeckende Abdeckung ueber die ~1.870 Spieler im historischen Pool siehe README.md, Abschnitt 'Draft-Context erweitern'.",
+  "_readme": "Automatisch befuellt via scripts/scrape-draft-context.py (Quelle: basketball.realgm.com). Key = Spielername normalisiert (trim + lowercase). Wird inkrementell ergaenzt, nie komplett neu geschrieben. Manuelle Korrekturen bleiben erhalten, solange der Key nicht erneut ueberschrieben wird.",
   "a.j. lawson": {
     "_source": "auto-bbref",
     "careerGames": 107,
