@@ -2,139 +2,336 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MFHFB Sticky Score</title>
-<script>
-(function(){
-  try{
-    var t = localStorage.getItem('mfhfb_theme');
-    if(t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)){
-      document.documentElement.setAttribute('data-theme','dark');
-    }
-  }catch(e){}
-})();
-</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>NBA Front Office — Uğur</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-<header>
-  <div class="header-row">
-    <div>
-      <h1>MFHFB Sticky Score</h1>
-      <p>Summer League Per-36 Stats → gewichteter Composite Score (Sticky ×1,5 / Other ×1 / Icky ×0,5)</p>
+<div id="app">
+  <div id="topnav">
+    <div class="logo">NBA<span>FO</span></div>
+    <div class="nav-sep"></div>
+    <div class="nav-section-tabs">
+      <button class="nav-tab active" onclick="showPage('roster')" id="tab-roster">📋 Roster</button>
+      <button class="nav-tab" onclick="showPage('fa')" id="tab-fa">🆓 Free Agents</button>
+      <button class="nav-tab" onclick="showPage('trade')" id="tab-trade">🔄 Trade Calc</button>
+      <button class="nav-tab" onclick="showPage('tools')" id="tab-tools">🛠 Tools</button>
+      <button class="nav-tab" onclick="showPage('teams')" id="tab-teams">🏀 Teams</button>
     </div>
-    <div class="header-actions">
-      <nav><a href="player.html">Spieler-Vergleich (Spinnendiagramm) →</a></nav>
-      <nav><a href="daten.html">Daten &amp; Methodik</a></nav>
-      <button class="theme-toggle" id="themeToggle" aria-label="Dark Mode umschalten">🌙</button>
+    <div class="nav-right">
+      <span class="nav-team-label" id="nav-team-label">GM: Uğur · 2026-27</span>
+      <button class="theme-btn" onclick="toggleTheme()">
+        <div class="theme-dot"></div>
+        <span id="theme-label">DARK</span>
+      </button>
     </div>
   </div>
-</header>
-
-<main>
-
-  <div class="card data-entry-card">
-    <div class="txt">
-      <h2>Daten &amp; Methodik</h2>
-      <p>CSV hochladen, historische Jahrgänge einspielen und nachlesen, wie Sticky/Other/Icky &amp; die Konfidenz-Gewichtung berechnet werden.</p>
+  <div id="sidebar-overlay" onclick="closeSidebar()"></div>
+  <div id="main-body">
+    <div id="sidebar">
+      <div class="sidebar-section-label">My Teams</div>
+      <div id="sidebar-my-teams"></div>
+      <div class="sidebar-section-label" style="margin-top:14px">All Teams</div>
+      <div id="sidebar-all-teams"></div>
     </div>
-    <a class="btn-link" href="daten.html">Öffnen →</a>
-  </div>
-
-  <div class="card">
-    <h2>Modus &amp; Gewichtung</h2>
-    <div class="weights" style="margin-bottom:16px;">
-      <button id="modeStickyBtn" class="modeBtn modeActive">Sticky Score</button>
-      <button id="modeRotationBtn" class="modeBtn">Rotation-Score (Sleeper-Modus)</button>
-    </div>
-    <div id="stickyModePanel">
-      <div class="weights">
-        <div class="weight-field">
-          <label><span class="dot" style="background:var(--sticky)"></span>Sticky Stats</label>
-          <input type="number" id="wSticky" value="1.5" step="0.1">
+    <div id="content">
+      <div id="mobile-team-strip">
+        <div class="mobile-team-dot" id="strip-dot"></div>
+        <div class="mobile-team-name" id="strip-name">Philadelphia 76ers</div>
+        <button class="mobile-hamburger" onclick="openSidebar()">☰</button>
+      </div>
+      <!-- ROSTER PAGE -->
+      <div class="page active" id="page-roster">
+        <div id="roster-team-header"></div>
+        <div id="cap-bar-section"></div>
+        <div class="roster-toolbar">
+          <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+          <button class="filter-btn" onclick="setFilter('expiring',this)">Expiring</button>
+          <button class="filter-btn" onclick="setFilter('caps',this)">Cap Risks</button>
+          <button class="filter-btn" onclick="setFilter('tradable',this)">Tradable</button>
+          <button class="filter-btn" onclick="setFilter('bird',this)">Bird Rights</button>
+          <button class="filter-btn" onclick="setFilter('options',this)">PO/TO</button>
+          <input class="search-box" id="roster-search" type="text" placeholder="Suche..." oninput="renderRoster()"><button class="export-btn" id="export-csv-btn" onclick="exportRosterCSV()">⬇ CSV</button><button class="export-btn" id="export-md-btn" onclick="exportRosterMarkdown()">📋 MD</button>
         </div>
-        <div class="weight-field">
-          <label><span class="dot" style="background:var(--other)"></span>Other Stats</label>
-          <input type="number" id="wOther" value="1" step="0.1">
+        <div class="roster-wrap" id="roster-table-wrap"></div>
+      </div>
+      <!-- FA PAGE -->
+      <div class="page" id="page-fa">
+        <div class="fa-toolbar">
+          <span style="font-family:var(--font-display);font-size:20px;letter-spacing:1px">Free Agents 2026</span>
+          <input class="fa-search" id="fa-search" type="text" placeholder="Suche Spieler..." oninput="renderFA()">
+          <select id="fa-sort-select" onchange="setFASort()" style="padding:5px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:11px;outline:none">
+            <option value="fpg-1">FPG ↓</option>
+            <option value="fpg1">FPG ↑</option>
+            <option value="name-1">Name A-Z</option>
+            <option value="fairval-1">Fair Value ↓</option>
+          </select>
         </div>
-        <div class="weight-field">
-          <label><span class="dot" style="background:var(--icky)"></span>Icky Stats</label>
-          <input type="number" id="wIcky" value="0.5" step="0.1">
+        <div class="fa-table-wrap" id="fa-table-wrap"></div>
+      </div>
+      <!-- TRADE PAGE -->
+      <div class="page" id="page-trade">
+        <div class="trade-page">
+          <div class="trade-header-row">
+            <span class="trade-page-title">⚖️ Trade Calculator</span>
+            <button class="trade-reset-btn" onclick="resetTrade()">↺ Reset</button>
+          </div>
+          <div class="trade-sides">
+            <div class="trade-side">
+              <div class="trade-side-header">
+                <span class="trade-side-label">Team A</span>
+                <select class="trade-team-select" id="trade-team-a" onchange="updateTradeSide('a')">
+                  <option value="">— Team wählen —</option>
+                </select>
+              </div>
+              <div class="trade-side-body">
+                <div class="picker-wrap" id="picker-wrap-a">
+                  <input class="trade-player-search" id="trade-search-a" type="text" placeholder="Spieler suchen…" oninput="showDropdown('a')" onfocus="showDropdown('a')" autocomplete="off">
+                  <div class="trade-player-dropdown" id="dropdown-a" style="display:none"></div>
+                </div>
+                <div class="trade-players-list" id="trade-players-a"></div>
+                <div class="manual-add-row">
+                  <input class="manual-input" id="manual-name-a" type="text" placeholder="Spielername (manuell)">
+                  <input class="manual-input" id="manual-sal-a" type="number" placeholder="Gehalt $" style="max-width:110px">
+                  <button class="manual-add-btn" onclick="manualAdd('a')">+ Add</button>
+                </div>
+              </div>
+              <div class="trade-totals">
+                <span class="trade-total-label">OUTGOING</span>
+                <span class="trade-total-val" id="total-a">$0</span>
+              </div>
+            </div>
+            <div class="trade-side">
+              <div class="trade-side-header">
+                <span class="trade-side-label">Team B</span>
+                <select class="trade-team-select" id="trade-team-b" onchange="updateTradeSide('b')">
+                  <option value="">— Team wählen —</option>
+                </select>
+              </div>
+              <div class="trade-side-body">
+                <div class="picker-wrap" id="picker-wrap-b">
+                  <input class="trade-player-search" id="trade-search-b" type="text" placeholder="Spieler suchen…" oninput="showDropdown('b')" onfocus="showDropdown('b')" autocomplete="off">
+                  <div class="trade-player-dropdown" id="dropdown-b" style="display:none"></div>
+                </div>
+                <div class="trade-players-list" id="trade-players-b"></div>
+                <div class="manual-add-row">
+                  <input class="manual-input" id="manual-name-b" type="text" placeholder="Spielername (manuell)">
+                  <input class="manual-input" id="manual-sal-b" type="number" placeholder="Gehalt $" style="max-width:110px">
+                  <button class="manual-add-btn" onclick="manualAdd('b')">+ Add</button>
+                </div>
+              </div>
+              <div class="trade-totals">
+                <span class="trade-total-label">OUTGOING</span>
+                <span class="trade-total-val" id="total-b">$0</span>
+              </div>
+            </div>
+          </div>
+          <div class="trade-verdict">
+            <div class="verdict-title">📊 Trade Analyse</div>
+            <div class="verdict-grid" id="trade-verdict"></div>
+          </div>
+          <div class="tpe-section">
+            <div class="tpe-title">💜 Traded Player Exceptions</div>
+            <div id="tpe-results"><div style="color:var(--muted);font-size:12px">Füge Spieler hinzu um TPEs zu berechnen.</div></div>
+          </div>
+          <div class="cba-ref">
+            <div class="cba-ref-title">📖 CBA 2026-27 Referenz</div>
+            <div class="cba-grid">
+              <div class="cba-item"><div class="cba-item-label">Salary Cap</div><div class="cba-item-val" style="color:var(--green)">$165,000,000</div></div>
+              <div class="cba-item"><div class="cba-item-label">Luxury Tax</div><div class="cba-item-val" style="color:var(--yellow)">$201,000,000</div></div>
+              <div class="cba-item"><div class="cba-item-label">1st Apron</div><div class="cba-item-val" style="color:var(--orange)">$209,000,000</div></div>
+              <div class="cba-item"><div class="cba-item-label">2nd Apron</div><div class="cba-item-val" style="color:var(--red)">$222,000,000</div></div>
+              <div class="cba-item"><div class="cba-item-label">Non-Tax MLE</div><div class="cba-item-val">$15,048,000</div></div>
+              <div class="cba-item"><div class="cba-item-label">Tax MLE</div><div class="cba-item-val">$6,065,000</div></div>
+              <div class="cba-item"><div class="cba-item-label">Room MLE</div><div class="cba-item-val">$9,369,000</div></div>
+              <div class="cba-item"><div class="cba-item-label">BAE</div><div class="cba-item-val">$5,478,000</div></div>
+            </div>
+          </div>
         </div>
       </div>
+      <!-- TOOLS PAGE -->
+      <div class="page" id="page-tools">
+<div style="display:flex;flex-direction:column;height:100%;min-height:0;overflow:hidden">
+          <div class="tools-tabs" id="tools-tabs">
+            <button class="tool-tab active" onclick="showTool('finder')">🔍 Trade Finder</button>
+            <button class="tool-tab" onclick="showTool('maxcalc')">💰 Max Angebot</button>
+            <button class="tool-tab" onclick="showTool('fairval')">⭐ Fair Value</button>
+<button class="tool-tab" onclick="showTool('offseason')">📅 Off Season</button><button class="tool-tab" onclick="showTool('ownercap')">💰 Owner Cap</button><button class="tool-tab" onclick="showTool('fabidding')">💵 FA Bidding</button>
+          </div>
+  
+          <!-- TRADE FINDER -->
+          <div class="tool-panel active" id="tool-finder">
+            <div class="tool-card">
+              <div class="tool-card-title">🔍 Trade Finder</div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Spieler (aus meinem Roster)</label>
+                  <select class="form-select" id="finder-player">
+                    <option value="">— Spieler wählen —</option>
+                  </select>
+                </div>
+                <div class="form-group" style="max-width:120px">
+                  <label class="form-label">Gehalt ($)</label>
+                  <input class="form-input" id="finder-sal" type="number" placeholder="z.B. 11000000">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Ziel-Team</label>
+                  <select class="form-select" id="finder-target">
+                    <option value="all">🌍 Gesamter Markt</option>
+                  </select>
+                </div>
+                <div class="form-group" style="max-width:160px">
+                  <label class="form-label">Team-Richtung filtern</label>
+                  <select class="form-select" id="finder-direction">
+                    <option value="all">Alle Teams</option>
+                    <option value="rebuild">Rebuilder bevorzugen</option>
+                    <option value="contend">Contender bevorzugen</option>
+                  </select>
+                </div>
+                <button class="action-btn" onclick="runTradeFinder()" style="align-self:flex-end">Suchen</button>
+              </div>
+              <div id="finder-results"></div>
+            </div>
+          </div>
+          <!-- MAX ANGEBOT -->
+          <div class="tool-panel" id="tool-maxcalc">
+            <div class="tool-card">
+              <div class="tool-card-title">💰 CBA Max-Angebot Rechner</div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Spieler (aus FA-Liste)</label>
+                  <select class="form-select" id="maxcalc-player" onchange="prefillMaxCalc()">
+                    <option value="">— oder manuell eingeben —</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Letztes Gehalt ($)</label>
+                  <input class="form-input" id="maxcalc-last-sal" type="number" placeholder="z.B. 11000000">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">NBA-Erfahrung (Jahre)</label>
+                  <select class="form-select" id="maxcalc-exp">
+                    <option value="0">0–6 Jahre (25% Cap)</option>
+                    <option value="7">7–9 Jahre (30% Cap)</option>
+                    <option value="10">10+ Jahre (35% Cap)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Bird Rights</label>
+                  <select class="form-select" id="maxcalc-bird">
+                    <option value="full">Full Bird Rights</option>
+                    <option value="early">Early Bird Rights</option>
+                    <option value="non">Non-Bird / kein</option>
+                  </select>
+                </div>
+                <button class="action-btn" onclick="calcMax()" style="align-self:flex-end">Berechnen</button>
+              </div>
+              <div id="maxcalc-results"></div>
+            </div>
+          </div>
+          <!-- FAIR VALUE -->
+          <div class="tool-panel" id="tool-fairval">
+            <div class="tool-card">
+              <div class="tool-card-title">⭐ Fantasy Fair Value</div>
+              <p style="font-size:12px;color:var(--dim);margin-bottom:12px">Basierend auf FPG-Anteil am Liga-Pool: Wie viel ist ein Spieler in Dollar wert?</p>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Anzahl Teams</label>
+                  <input class="form-input" id="fv-teams" type="number" value="12" min="6" max="30">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Roster-Plätze / Team</label>
+                  <input class="form-input" id="fv-spots" type="number" value="13" min="8" max="20">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Marktfaktor</label>
+                  <select class="form-select" id="fv-factor">
+                    <option value="0.7">0.7× (effizient)</option>
+                    <option value="1.0" selected>1.0× (Standard)</option>
+                    <option value="1.3">1.3× (Stars-Premium)</option>
+                    <option value="1.6">1.6× (Inflation)</option>
+                  </select>
+                </div>
+              </div>
+              <div id="fv-table-wrap"></div>
+            </div>
+          </div>
+
+          <!-- OFF SEASON PLANER -->
+<div class="tool-panel" id="tool-offseason" style="gap:16px">
+            <div class="tool-card" style="padding-bottom:16">
+              <div class="tool-card-title">📅 Off Season Planer</div>
+              <p style="font-size:12px;color:var(--dim);margin-bottom:12px">Plane deine Roster-Entscheidungen: Wer bleibt, wie, zu welchem Preis?</p>
+              <div class="form-row" style="margin-bottom:0">
+                <div class="form-group">
+                  <label class="form-label">Team</label>
+                  <select class="form-select" id="os-team" onchange="renderOffSeason()">
+                    <option value="PHI">Philadelphia 76ers</option>
+                    <option value="UT">Utah Jazz</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div id="os-roster-cards" style="display:flex;flex-direction:column;gap:10px"></div>
+            <div class="tool-card" id="os-summary" style="background:var(--surface);border:1px solid var(--border);border-radius:10px"></div>
+          </div>
+
+          <!-- FA OFFER SHEET BUILDER -->
+          <div class="tool-panel" id="tool-fabidding" style="gap:16px"></div>
+        </div>
+      </div>
+
+<!-- OWNER CAP DASHBOARD -->
+          <div class="tool-panel" id="tool-ownercap" style="gap:16px">
+            <div class="tool-card" style="flex-shrink:0">
+              <div class="tool-card-title">💰 Owner Cap Dashboard</div>
+              <p style="font-size:12px;color:var(--dim);margin-bottom:12px">Alle 30 Teams und ihre individuelle Owner Cap Auslastung.</p>
+              <select class="form-select" id="oc-sort-select" onchange="renderOwnerCapDashboard()" style="max-width:180px">
+                <option value="pct">Auslastung ↓</option>
+                <option value="left">Verbleibend ↓</option>
+                <option value="cap">Owner Cap ↓</option>
+                <option value="name">Team Name</option>
+              </select>
+            </div>
+            <div class="oc-table-wrap" id="oc-table-wrap"></div>
+          </div>
+      
+      <!-- TEAMS PAGE -->
+      <div class="page" id="page-teams">
+        <div class="teams-toolbar">
+          <span style="font-family:var(--font-display);font-size:20px;letter-spacing:1px">League Overview</span>
+          <select id="teams-sort-select" onchange="renderTeamsTable()" style="padding:5px 8px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:11px;outline:none">
+            <option value="name">Team Name</option>
+            <option value="salary">Salary ↓</option>
+            <option value="space">Cap Space ↓</option>
+            <option value="gm">GM Name</option>
+          </select>
+        </div>
+        <div class="teams-page">
+          <div id="teams-table-wrap" style="overflow:auto"></div>
+        </div>
+      </div>
+    </div><!-- /content -->
+    <div id="detail-panel">
+      <div id="detail-panel-inner"></div>
     </div>
-    <div id="rotationModePanel" style="display:none;">
-      <p class="steps">
-        Sucht nicht den vielseitigsten Spieler, sondern den mit <strong>einer klar tragfähigen NBA-Fähigkeit</strong> —
-        das Muster hinter Spielern wie Fred VanVleet, Austin Reaves, T.J. McConnell oder Sam Hauser. Fließt ein:
-        AST/TOV, STL/36 (höher gewichtet — historisch der stärkste Einzelprädiktor für NBA-Erfolg),
-        FT% (nur bei ausreichend Volumen), 3P% (nur bei ausreichend Volumen), Effizienz bei geringem
-        Scoring-Volumen. Ein Bonus, wenn genau <em>eine</em> dieser Kategorien stark heraussticht und der
-        Rest unauffällig ist. Alter wird angezeigt, fließt aber bewusst <strong>nicht</strong> in den Score ein —
-        Daten zu Second-Round-Picks zeigen, dass ältere Senioren sogar seltener in der Liga überleben als
-        jüngere Spieler, "älter = fertiger" war zu pauschal.
-      </p>
+  </div><!-- /main-body -->
+  <div id="mobile-bottom-nav">
+    <div class="mnav-inner">
+      <button class="mnav-btn active" id="mnav-roster" onclick="showPage('roster')"><span class="micon">📋</span><span>Roster</span></button>
+      <button class="mnav-btn" id="mnav-fa" onclick="showPage('fa')"><span class="micon">🆓</span><span>FAs</span></button>
+      <button class="mnav-btn" id="mnav-trade" onclick="showPage('trade')"><span class="micon">🔄</span><span>Trade</span></button>
+      <button class="mnav-btn" id="mnav-tools" onclick="showPage('tools')"><span class="micon">🛠</span><span>Tools</span></button>
+      <button class="mnav-btn" id="mnav-teams" onclick="showPage('teams')"><span class="micon">🏀</span><span>Teams</span></button>
     </div>
-    <button id="calcBtn">Score neu berechnen</button>
-    <button id="resetBtn" class="btn-outline" style="margin-left:10px;color:var(--icky-strong);border-color:var(--icky-strong);">Gespeicherte Daten löschen</button>
-    <div id="status"></div>
   </div>
-
-  <div class="card" id="resultsCard" style="display:none;">
-    <h2>Ranking</h2>
-    <datalist id="tagOptions">
-      <option value="My Guys">
-      <option value="Targets">
-    </datalist>
-    <div class="weight-field" style="margin-bottom:14px;">
-      <label>Vergleichsgruppe (Rang, Farben & Sortierung beziehen sich nur auf diese Auswahl)</label>
-      <select id="positionFilter" style="padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:14px;max-width:260px;">
-        <option value="ALL">Gesamte Klasse</option>
-        <option value="G">Nur Guards</option>
-        <option value="W">Nur Wings</option>
-        <option value="B">Nur Bigs</option>
-      </select>
-    </div>
-    <div class="weight-field" style="margin-bottom:14px;">
-      <label>Zeitraum (basiert auf der Markierung beim Hochladen, siehe "Daten & Methodik")</label>
-      <select id="seasonFilter" style="padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:14px;max-width:260px;">
-        <option value="ALL">Alle geladenen Daten</option>
-        <option value="2026">Nur 2026 Summer League</option>
-      </select>
-    </div>
-    <div class="weight-field" style="margin-bottom:14px;">
-      <button id="metaExportBtn" class="btn-outline" type="button">💾 Position/Alter als Datei sichern</button>
-      <div class="hint" style="max-width:640px;">Sichert die Position/Alter-Eingaben aus der Tabelle unten als
-      <code>player-meta-overrides.json</code>. Einmal im Repo committet (Datei bei GitHub im gleichnamigen Pfad
-      unter <code>data/</code> hochladen/überschreiben), gehen diese Eingaben nie wieder verloren — auch nicht,
-      wenn der komplette Browser-Speicher geleert wird. Für Spieler, die bereits in der Basketball-Reference-Historie
-      auftauchen (~1.580 Spieler, z.B. Zwei-Wege-Vertrags-Spieler oder Veteranen in der Summer League), werden
-      Position/Team/Alter jetzt automatisch aus <code>data/draft-context.json</code> vorbefüllt (Hover über das Feld
-      zeigt "automatisch geschätzt" an) — nur echte Undrafted-Neuzugänge ohne Historie brauchen noch Handeintrag.
-      Eine manuelle Eingabe oder eine gespeicherte <code>player-meta-overrides.json</code> hat immer Vorrang vor der
-      Automatik. Details siehe "Daten & Methodik".</div>
-    </div>
-    <div class="legend" id="stickyLegend">
-      <span><span class="dot" style="background:var(--sticky)"></span>Sticky-Substats gehen ×1,5 ein</span>
-      <span><span class="dot" style="background:var(--other)"></span>Other ×1</span>
-      <span><span class="dot" style="background:var(--icky)"></span>Icky ×0,5</span>
-    </div>
-    <div class="table-wrap">
-      <table id="resultsTable">
-        <thead><tr id="headRow"></tr></thead>
-        <tbody id="bodyRows"></tbody>
-      </table>
-    </div>
-    <button id="exportBtn" style="margin-top:14px;">Als CSV exportieren (aktuelle Ansicht)</button>
-    <div class="hint">Spaltenkopf anklicken zum Sortieren. Farben: Rot = schwächster, Grün = stärkster Wert der Spalte — bezogen auf die aktuell gewählte Vergleichsgruppe. Spieler ohne Positionszuweisung fallen bei "Nur Guards/Wings/Bigs" automatisch raus — Position vorher in der Tabelle setzen. Spielername anklicken → Spinnendiagramm-Vergleich mit historischen Summer-League-Spielern.</div>
-  </div>
-
-</main>
-
-<script src="js/theme.js"></script>
-<script src="js/draft-lookup.js"></script>
-<script src="js/stats.js"></script>
+</div><!-- /app -->
 <script src="js/app.js"></script>
+<script src="js/fa-bidding.js"></script>
 </body>
 </html>

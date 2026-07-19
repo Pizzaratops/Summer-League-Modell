@@ -1,0 +1,1837 @@
+{
+"Luka Dončić": {
+"tier": "Star/Max",
+"composite": 3.95,
+"espn_fit": 0
+},
+"Kevin Durant": {
+"tier": "Star/Max",
+"composite": 3.03,
+"espn_fit": 0
+},
+"Jayson Tatum": {
+"tier": "Star/Max",
+"composite": 2.99,
+"espn_fit": 0
+},
+"Shai Gilgeous-Alexander": {
+"tier": "Star/Max",
+"composite": 2.88,
+"espn_fit": 0
+},
+"Jimmy Butler": {
+"tier": "Star/Max",
+"composite": 2.68,
+"espn_fit": 0
+},
+"LeBron James": {
+"tier": "Star/Max",
+"composite": 2.51,
+"espn_fit": 2
+},
+"Chris Duarte": {
+"tier": "Star/Max",
+"composite": 2.31,
+"espn_fit": 0
+},
+"Dante Exum": {
+"tier": "Non-Tax MLE",
+"composite": 2.26,
+"espn_fit": 0
+},
+"Jabari Smith": {
+"tier": "Non-Tax MLE",
+"composite": 1.89,
+"espn_fit": 0
+},
+"Paolo Banchero": {
+"tier": "Non-Tax MLE",
+"composite": 1.8,
+"espn_fit": 0
+},
+"Jalen Duren": {
+"tier": "Non-Tax MLE",
+"composite": 1.72,
+"espn_fit": 3
+},
+"Walker Kessler": {
+"tier": "Non-Tax MLE",
+"composite": 1.72,
+"espn_fit": 3
+},
+"Christian Wood": {
+"tier": "Non-Tax MLE",
+"composite": 1.7,
+"espn_fit": 0
+},
+"Seth Lundy": {
+"tier": "Non-Tax MLE",
+"composite": 1.68,
+"espn_fit": 0
+},
+"Nikola Vucevic": {
+"tier": "Non-Tax MLE",
+"composite": 1.67,
+"espn_fit": 5
+},
+"Norman Powell": {
+"tier": "Non-Tax MLE",
+"composite": 1.61,
+"espn_fit": 1
+},
+"Duncan Robinson": {
+"tier": "Non-Tax MLE",
+"composite": 1.51,
+"espn_fit": 0
+},
+"Keegan Murray": {
+"tier": "Non-Tax MLE",
+"composite": 1.49,
+"espn_fit": 0
+},
+"Tari Eason": {
+"tier": "Non-Tax MLE",
+"composite": 1.41,
+"espn_fit": 6
+},
+"Julian Champagnie": {
+"tier": "Non-Tax MLE",
+"composite": 1.35,
+"espn_fit": 0
+},
+"Josh Christopher": {
+"tier": "Non-Tax MLE",
+"composite": 1.28,
+"espn_fit": 0
+},
+"Miles Bridges": {
+"tier": "Non-Tax MLE",
+"composite": 1.25,
+"espn_fit": 0
+},
+"Moses Brown": {
+"tier": "Non-Tax MLE",
+"composite": 1.24,
+"espn_fit": 0
+},
+"Bennedict Mathurin": {
+"tier": "Non-Tax MLE",
+"composite": 1.2,
+"espn_fit": 3
+},
+"Bol Bol": {
+"tier": "Non-Tax MLE",
+"composite": 1.19,
+"espn_fit": 0
+},
+"Tim Hardaway": {
+"tier": "Non-Tax MLE",
+"composite": 1.15,
+"espn_fit": 0
+},
+"Mitchell Robinson": {
+"tier": "Non-Tax MLE",
+"composite": 1.14,
+"espn_fit": 8
+},
+"Neemias Queta": {
+"tier": "Non-Tax MLE",
+"composite": 1.13,
+"espn_fit": 0
+},
+"Jordan Goodwin": {
+"tier": "Non-Tax MLE",
+"composite": 1.11,
+"espn_fit": 0
+},
+"Jordan Miller": {
+"tier": "Non-Tax MLE",
+"composite": 1.09,
+"espn_fit": 0
+},
+"Sandro Mamukelashvili": {
+"tier": "Non-Tax MLE",
+"composite": 1.06,
+"espn_fit": 1
+},
+"Harrison Barnes": {
+"tier": "Non-Tax MLE",
+"composite": 1.02,
+"espn_fit": 8
+},
+"Chaney Johnson": {
+"tier": "Non-Tax MLE",
+"composite": 1.02,
+"espn_fit": 1
+},
+"Jared Butler": {
+"tier": "Non-Tax MLE",
+"composite": 1.01,
+"espn_fit": 0
+},
+"Draymond Green": {
+"tier": "Non-Tax MLE",
+"composite": 1.01,
+"espn_fit": 0
+},
+"Dereon Seabron": {
+"tier": "Non-Tax MLE",
+"composite": 1.0,
+"espn_fit": 0
+},
+"Max Strus": {
+"tier": "Non-Tax MLE",
+"composite": 0.99,
+"espn_fit": 0
+},
+"Shaedon Sharpe": {
+"tier": "Non-Tax MLE",
+"composite": 0.99,
+"espn_fit": 0
+},
+"Fred VanVleet": {
+"tier": "Non-Tax MLE",
+"composite": 0.96,
+"espn_fit": 0
+},
+"Emoni Bates": {
+"tier": "Non-Tax MLE",
+"composite": 0.95,
+"espn_fit": 0
+},
+"Daniss Jenkins": {
+"tier": "BAE",
+"composite": 0.88,
+"espn_fit": 0
+},
+"Lester Quinones": {
+"tier": "BAE",
+"composite": 0.85,
+"espn_fit": 0
+},
+"Kyle Anderson": {
+"tier": "BAE",
+"composite": 0.85,
+"espn_fit": 3
+},
+"Daeqwon Plowden": {
+"tier": "BAE",
+"composite": 0.81,
+"espn_fit": 0
+},
+"Al Horford": {
+"tier": "BAE",
+"composite": 0.81,
+"espn_fit": 0
+},
+"Jalen Bridges": {
+"tier": "BAE",
+"composite": 0.8,
+"espn_fit": 0
+},
+"Precious Achiuwa": {
+"tier": "BAE",
+"composite": 0.8,
+"espn_fit": 2
+},
+"Max Christie": {
+"tier": "BAE",
+"composite": 0.8,
+"espn_fit": 0
+},
+"Jay Huff": {
+"tier": "BAE",
+"composite": 0.79,
+"espn_fit": 0
+},
+"Robert Williams": {
+"tier": "BAE",
+"composite": 0.79,
+"espn_fit": 1
+},
+"Adama Sanogo": {
+"tier": "BAE",
+"composite": 0.79,
+"espn_fit": 0
+},
+"Kadary Richmond": {
+"tier": "BAE",
+"composite": 0.76,
+"espn_fit": 0
+},
+"Isaiah Wong": {
+"tier": "BAE",
+"composite": 0.76,
+"espn_fit": 0
+},
+"Brandon Clarke": {
+"tier": "BAE",
+"composite": 0.76,
+"espn_fit": 0
+},
+"Jalen Slawson": {
+"tier": "BAE",
+"composite": 0.76,
+"espn_fit": 1
+},
+"Daniel Gafford": {
+"tier": "BAE",
+"composite": 0.75,
+"espn_fit": 0
+},
+"Luka Garza": {
+"tier": "BAE",
+"composite": 0.75,
+"espn_fit": 0
+},
+"Cormac Ryan": {
+"tier": "BAE",
+"composite": 0.75,
+"espn_fit": 0
+},
+"Jake LaRavia": {
+"tier": "BAE",
+"composite": 0.75,
+"espn_fit": 0
+},
+"Dominick Barlow": {
+"tier": "BAE",
+"composite": 0.74,
+"espn_fit": 0
+},
+"James Bouknight": {
+"tier": "BAE",
+"composite": 0.74,
+"espn_fit": 0
+},
+"Oscar Tshiebwe": {
+"tier": "BAE",
+"composite": 0.74,
+"espn_fit": 0
+},
+"Chris Boucher": {
+"tier": "BAE",
+"composite": 0.74,
+"espn_fit": 0
+},
+"Pat Spencer": {
+"tier": "BAE",
+"composite": 0.73,
+"espn_fit": 8
+},
+"Brandon Williams": {
+"tier": "BAE",
+"composite": 0.73,
+"espn_fit": 7
+},
+"Mark Williams": {
+"tier": "BAE",
+"composite": 0.7,
+"espn_fit": 0
+},
+"Pelle Larsson": {
+"tier": "BAE",
+"composite": 0.69,
+"espn_fit": 0
+},
+"Isaiah Mobley": {
+"tier": "BAE",
+"composite": 0.69,
+"espn_fit": 0
+},
+"Javonte Green": {
+"tier": "BAE",
+"composite": 0.67,
+"espn_fit": 13
+},
+"John Konchar": {
+"tier": "BAE",
+"composite": 0.66,
+"espn_fit": 0
+},
+"Jaxson Hayes": {
+"tier": "BAE",
+"composite": 0.66,
+"espn_fit": 2
+},
+"Day'Ron Sharpe": {
+"tier": "BAE",
+"composite": 0.66,
+"espn_fit": 0
+},
+"Jackson Rowe": {
+"tier": "BAE",
+"composite": 0.63,
+"espn_fit": 0
+},
+"Bez Mbeng": {
+"tier": "BAE",
+"composite": 0.62,
+"espn_fit": 0
+},
+"Brook Lopez": {
+"tier": "BAE",
+"composite": 0.62,
+"espn_fit": 0
+},
+"Dylan Cardwell": {
+"tier": "BAE",
+"composite": 0.59,
+"espn_fit": 0
+},
+"Kris Dunn": {
+"tier": "BAE",
+"composite": 0.59,
+"espn_fit": 0
+},
+"Jaden Ivey": {
+"tier": "BAE",
+"composite": 0.58,
+"espn_fit": 0
+},
+"Andre Drummond": {
+"tier": "BAE",
+"composite": 0.58,
+"espn_fit": 11
+},
+"Marvin Bagley": {
+"tier": "BAE",
+"composite": 0.56,
+"espn_fit": 0
+},
+"Kennedy Chandler": {
+"tier": "BAE",
+"composite": 0.54,
+"espn_fit": 0
+},
+"Micah Potter": {
+"tier": "BAE",
+"composite": 0.54,
+"espn_fit": 0
+},
+"Dwight Powell": {
+"tier": "BAE",
+"composite": 0.51,
+"espn_fit": 0
+},
+"Tristen Newton": {
+"tier": "BAE",
+"composite": 0.5,
+"espn_fit": 0
+},
+"Peyton Watson": {
+"tier": "BAE",
+"composite": 0.5,
+"espn_fit": 6
+},
+"Seth Curry": {
+"tier": "BAE",
+"composite": 0.5,
+"espn_fit": 0
+},
+"Vit Krejci": {
+"tier": "BAE",
+"composite": 0.48,
+"espn_fit": 0
+},
+"Kobe Brown": {
+"tier": "BAE",
+"composite": 0.45,
+"espn_fit": 0
+},
+"Ayo Dosunmu": {
+"tier": "BAE",
+"composite": 0.43,
+"espn_fit": 1
+},
+"Scotty Pippen": {
+"tier": "BAE",
+"composite": 0.43,
+"espn_fit": 0
+},
+"Svi Mykhailiuk": {
+"tier": "BAE",
+"composite": 0.41,
+"espn_fit": 0
+},
+"Jaylen Wells": {
+"tier": "BAE",
+"composite": 0.39,
+"espn_fit": 0
+},
+"Jaylen Nowell": {
+"tier": "BAE",
+"composite": 0.39,
+"espn_fit": 0
+},
+"Davion Mitchell": {
+"tier": "BAE",
+"composite": 0.38,
+"espn_fit": 0
+},
+"Jared Rhoden": {
+"tier": "BAE",
+"composite": 0.37,
+"espn_fit": 0
+},
+"Craig Porter": {
+"tier": "BAE",
+"composite": 0.37,
+"espn_fit": 0
+},
+"Malachi Smith": {
+"tier": "BAE",
+"composite": 0.36,
+"espn_fit": 0
+},
+"Jamarion Sharp": {
+"tier": "BAE",
+"composite": 0.36,
+"espn_fit": 0
+},
+"Andrew Nembhard": {
+"tier": "BAE",
+"composite": 0.36,
+"espn_fit": 0
+},
+"David Roddy": {
+"tier": "BAE",
+"composite": 0.35,
+"espn_fit": 0
+},
+"Jabari Walker": {
+"tier": "BAE",
+"composite": 0.35,
+"espn_fit": 0
+},
+"Collin Sexton": {
+"tier": "Vet-Min",
+"composite": 0.33,
+"espn_fit": 7
+},
+"Spencer Jones": {
+"tier": "Vet-Min",
+"composite": 0.33,
+"espn_fit": 3
+},
+"DeJon Jarreau": {
+"tier": "Vet-Min",
+"composite": 0.32,
+"espn_fit": 0
+},
+"Klay Thompson": {
+"tier": "Vet-Min",
+"composite": 0.32,
+"espn_fit": 0
+},
+"Jock Landale": {
+"tier": "Vet-Min",
+"composite": 0.31,
+"espn_fit": 5
+},
+"Pete Nance": {
+"tier": "Vet-Min",
+"composite": 0.31,
+"espn_fit": 0
+},
+"T.J. McConnell": {
+"tier": "Vet-Min",
+"composite": 0.31,
+"espn_fit": 0
+},
+"Luke Kennard": {
+"tier": "Vet-Min",
+"composite": 0.3,
+"espn_fit": 8
+},
+"Royce O'Neale": {
+"tier": "Vet-Min",
+"composite": 0.29,
+"espn_fit": 0
+},
+"Gui Santos": {
+"tier": "Vet-Min",
+"composite": 0.27,
+"espn_fit": 0
+},
+"Simone Fontecchio": {
+"tier": "Vet-Min",
+"composite": 0.27,
+"espn_fit": 7
+},
+"Elijah Harkless": {
+"tier": "Vet-Min",
+"composite": 0.27,
+"espn_fit": 2
+},
+"Aaron Wiggins": {
+"tier": "Vet-Min",
+"composite": 0.26,
+"espn_fit": 0
+},
+"Josh Okogie": {
+"tier": "Vet-Min",
+"composite": 0.25,
+"espn_fit": 10
+},
+"Trey Lyles": {
+"tier": "Vet-Min",
+"composite": 0.25,
+"espn_fit": 0
+},
+"DeAndre Jordan": {
+"tier": "Vet-Min",
+"composite": 0.24,
+"espn_fit": 0
+},
+"James Nnaji": {
+"tier": "Vet-Min",
+"composite": 0.23,
+"espn_fit": 0
+},
+"Georges Niang": {
+"tier": "Vet-Min",
+"composite": 0.22,
+"espn_fit": 1
+},
+"Zyon Pullin": {
+"tier": "Vet-Min",
+"composite": 0.22,
+"espn_fit": 0
+},
+"Landry Shamet": {
+"tier": "Vet-Min",
+"composite": 0.22,
+"espn_fit": 6
+},
+"JT Thor": {
+"tier": "Vet-Min",
+"composite": 0.22,
+"espn_fit": 0
+},
+"Jamaree Bouyea": {
+"tier": "Vet-Min",
+"composite": 0.21,
+"espn_fit": 0
+},
+"Andersson Garcia": {
+"tier": "Vet-Min",
+"composite": 0.21,
+"espn_fit": 0
+},
+"Alondes Williams": {
+"tier": "Vet-Min",
+"composite": 0.21,
+"espn_fit": 0
+},
+"Omer Yurtseven": {
+"tier": "Vet-Min",
+"composite": 0.21,
+"espn_fit": 0
+},
+"Caris LeVert": {
+"tier": "Vet-Min",
+"composite": 0.2,
+"espn_fit": 0
+},
+"Kevin Love": {
+"tier": "Vet-Min",
+"composite": 0.18,
+"espn_fit": 0
+},
+"Kobe Bufkin": {
+"tier": "Vet-Min",
+"composite": 0.18,
+"espn_fit": 0
+},
+"Lawson Lovering": {
+"tier": "Vet-Min",
+"composite": 0.17,
+"espn_fit": 0
+},
+"AJ Green": {
+"tier": "Vet-Min",
+"composite": 0.16,
+"espn_fit": 0
+},
+"Ethan Thompson": {
+"tier": "Vet-Min",
+"composite": 0.14,
+"espn_fit": 0
+},
+"Blake Hinson": {
+"tier": "Vet-Min",
+"composite": 0.13,
+"espn_fit": 0
+},
+"Tyrese Martin": {
+"tier": "Vet-Min",
+"composite": 0.13,
+"espn_fit": 0
+},
+"Branden Carlson": {
+"tier": "Vet-Min",
+"composite": 0.12,
+"espn_fit": 7
+},
+"D'Angelo Russell": {
+"tier": "Vet-Min",
+"composite": 0.12,
+"espn_fit": 0
+},
+"Jarred Vanderbilt": {
+"tier": "Vet-Min",
+"composite": 0.11,
+"espn_fit": 0
+},
+"Dru Smith": {
+"tier": "Vet-Min",
+"composite": 0.11,
+"espn_fit": 0
+},
+"Mouhamadou Gueye": {
+"tier": "Vet-Min",
+"composite": 0.11,
+"espn_fit": 0
+},
+"DaQuan Jeffries": {
+"tier": "Vet-Min",
+"composite": 0.08,
+"espn_fit": 0
+},
+"Taran Armstrong": {
+"tier": "Vet-Min",
+"composite": 0.07,
+"espn_fit": 0
+},
+"Ousmane Dieng": {
+"tier": "Vet-Min",
+"composite": 0.06,
+"espn_fit": 0
+},
+"Myron Gardner": {
+"tier": "Vet-Min",
+"composite": 0.05,
+"espn_fit": 0
+},
+"Keshad Johnson": {
+"tier": "Vet-Min",
+"composite": 0.03,
+"espn_fit": 0
+},
+"Bryce McGowens": {
+"tier": "Vet-Min",
+"composite": 0.01,
+"espn_fit": 0
+},
+"Duop Reath": {
+"tier": "Vet-Min",
+"composite": 0.0,
+"espn_fit": 0
+},
+"Nikola Jovic": {
+"tier": "Vet-Min",
+"composite": -0.01,
+"espn_fit": 0
+},
+"PJ Hall": {
+"tier": "Vet-Min",
+"composite": -0.02,
+"espn_fit": 0
+},
+"Drew Eubanks": {
+"tier": "Vet-Min",
+"composite": -0.03,
+"espn_fit": 2
+},
+"Jericho Sims": {
+"tier": "Vet-Min",
+"composite": -0.04,
+"espn_fit": 0
+},
+"Matthew Cleveland": {
+"tier": "Vet-Min",
+"composite": -0.04,
+"espn_fit": 0
+},
+"Jeremiah Robinson-Earl": {
+"tier": "Vet-Min",
+"composite": -0.05,
+"espn_fit": 0
+},
+"Orlando Robinson": {
+"tier": "Vet-Min",
+"composite": -0.05,
+"espn_fit": 0
+},
+"Mojave King": {
+"tier": "Vet-Min",
+"composite": -0.06,
+"espn_fit": 0
+},
+"Isaiah Crawford": {
+"tier": "Vet-Min",
+"composite": -0.06,
+"espn_fit": 5
+},
+"L.J. Cryer": {
+"tier": "Vet-Min",
+"composite": -0.07,
+"espn_fit": 0
+},
+"Zach Collins": {
+"tier": "Vet-Min",
+"composite": -0.08,
+"espn_fit": 1
+},
+"Enrique Freeman": {
+"tier": "Vet-Min",
+"composite": -0.09,
+"espn_fit": 0
+},
+"Leaky Black": {
+"tier": "Vet-Min",
+"composite": -0.09,
+"espn_fit": 0
+},
+"Nicolas Batum": {
+"tier": "Vet-Min",
+"composite": -0.1,
+"espn_fit": 0
+},
+"RayJ Dennis": {
+"tier": "Vet-Min",
+"composite": -0.11,
+"espn_fit": 0
+},
+"Chris Livingston": {
+"tier": "Vet-Min",
+"composite": -0.11,
+"espn_fit": 0
+},
+"Malaki Branham": {
+"tier": "Vet-Min",
+"composite": -0.11,
+"espn_fit": 0
+},
+"Kevon Looney": {
+"tier": "Vet-Min",
+"composite": -0.12,
+"espn_fit": 0
+},
+"Ochai Agbaji": {
+"tier": "Vet-Min",
+"composite": -0.12,
+"espn_fit": 6
+},
+"Isaac Jones": {
+"tier": "Vet-Min",
+"composite": -0.13,
+"espn_fit": 0
+},
+"Colin Castleton": {
+"tier": "Vet-Min",
+"composite": -0.13,
+"espn_fit": 0
+},
+"Jahmir Young": {
+"tier": "Vet-Min",
+"composite": -0.13,
+"espn_fit": 0
+},
+"Thomas Bryant": {
+"tier": "Vet-Min",
+"composite": -0.13,
+"espn_fit": 2
+},
+"Malevy Leons": {
+"tier": "Vet-Min",
+"composite": -0.14,
+"espn_fit": 0
+},
+"Buddy Hield": {
+"tier": "Vet-Min",
+"composite": -0.16,
+"espn_fit": 0
+},
+"Reece Beekman": {
+"tier": "Vet-Min",
+"composite": -0.17,
+"espn_fit": 0
+},
+"MarJon Beauchamp": {
+"tier": "Vet-Min",
+"composite": -0.17,
+"espn_fit": 0
+},
+"Skal Labissiere": {
+"tier": "Vet-Min",
+"composite": -0.18,
+"espn_fit": 0
+},
+"Wendell Moore": {
+"tier": "Vet-Min",
+"composite": -0.18,
+"espn_fit": 0
+},
+"JD Davison": {
+"tier": "Vet-Min",
+"composite": -0.19,
+"espn_fit": 0
+},
+"Trendon Watford": {
+"tier": "Vet-Min",
+"composite": -0.22,
+"espn_fit": 0
+},
+"Jaden Hardy": {
+"tier": "Vet-Min",
+"composite": -0.23,
+"espn_fit": 0
+},
+"Charles Bassey": {
+"tier": "Vet-Min",
+"composite": -0.23,
+"espn_fit": 1
+},
+"Adama Bal": {
+"tier": "Vet-Min",
+"composite": -0.24,
+"espn_fit": 0
+},
+"Norchad Omier": {
+"tier": "Vet-Min",
+"composite": -0.24,
+"espn_fit": 0
+},
+"Kendall Brown": {
+"tier": "Vet-Min",
+"composite": -0.26,
+"espn_fit": 0
+},
+"Amir Coffey": {
+"tier": "Vet-Min",
+"composite": -0.27,
+"espn_fit": 6
+},
+"Christian Koloko": {
+"tier": "Vet-Min",
+"composite": -0.27,
+"espn_fit": 0
+},
+"Anthony Gill": {
+"tier": "Vet-Min",
+"composite": -0.28,
+"espn_fit": 0
+},
+"Gabe Vincent": {
+"tier": "Vet-Min",
+"composite": -0.28,
+"espn_fit": 12
+},
+"Hunter Tyson": {
+"tier": "Vet-Min",
+"composite": -0.29,
+"espn_fit": 0
+},
+"Tyler Burton": {
+"tier": "Vet-Min",
+"composite": -0.29,
+"espn_fit": 0
+},
+"Jordan Clarkson": {
+"tier": "Vet-Min",
+"composite": -0.3,
+"espn_fit": 0
+},
+"John Poulakidas": {
+"tier": "Vet-Min",
+"composite": -0.3,
+"espn_fit": 0
+},
+"Tamar Bates": {
+"tier": "Vet-Min",
+"composite": -0.3,
+"espn_fit": 0
+},
+"Trevelin Queen": {
+"tier": "Vet-Min",
+"composite": -0.31,
+"espn_fit": 0
+},
+"Dalen Terry": {
+"tier": "Vet-Min",
+"composite": -0.32,
+"espn_fit": 1
+},
+"Keaton Wallace": {
+"tier": "Vet-Min",
+"composite": -0.32,
+"espn_fit": 5
+},
+"Tyson Etienne": {
+"tier": "Vet-Min",
+"composite": -0.33,
+"espn_fit": 0
+},
+"Sean Pedulla": {
+"tier": "Vet-Min",
+"composite": -0.33,
+"espn_fit": 0
+},
+"Isaiah Stevens": {
+"tier": "Vet-Min",
+"composite": -0.33,
+"espn_fit": 0
+},
+"Monte Morris": {
+"tier": "Vet-Min",
+"composite": -0.34,
+"espn_fit": 0
+},
+"Yuki Kawamura": {
+"tier": "Vet-Min",
+"composite": -0.34,
+"espn_fit": 0
+},
+"Adou Thiero": {
+"tier": "Vet-Min",
+"composite": -0.34,
+"espn_fit": 0
+},
+"Isaiah Livers": {
+"tier": "Vet-Min",
+"composite": -0.34,
+"espn_fit": 0
+},
+"Joshua Primo": {
+"tier": "Vet-Min",
+"composite": -0.35,
+"espn_fit": 0
+},
+"Khalifa Diop": {
+"tier": "Vet-Min",
+"composite": -0.35,
+"espn_fit": 0
+},
+"Jamal Cain": {
+"tier": "Vet-Min",
+"composite": -0.37,
+"espn_fit": 0
+},
+"Julian Reese": {
+"tier": "Vet-Min",
+"composite": -0.38,
+"espn_fit": 0
+},
+"Malcolm Brogdon": {
+"tier": "Vet-Min",
+"composite": -0.38,
+"espn_fit": 0
+},
+"Jalen Pickett": {
+"tier": "Vet-Min",
+"composite": -0.38,
+"espn_fit": 0
+},
+"Guerschon Yabusele": {
+"tier": "Vet-Min",
+"composite": -0.4,
+"espn_fit": 1
+},
+"Tyler Smith": {
+"tier": "Two-Way",
+"composite": -0.4,
+"espn_fit": 0
+},
+"Charles Bediako": {
+"tier": "Two-Way",
+"composite": -0.4,
+"espn_fit": 0
+},
+"Jamison Battle": {
+"tier": "Two-Way",
+"composite": -0.41,
+"espn_fit": 0
+},
+"Alex Len": {
+"tier": "Two-Way",
+"composite": -0.41,
+"espn_fit": 0
+},
+"Miles Kelly": {
+"tier": "Two-Way",
+"composite": -0.41,
+"espn_fit": 0
+},
+"Armel Traore": {
+"tier": "Two-Way",
+"composite": -0.43,
+"espn_fit": 0
+},
+"Ariel Hukporti": {
+"tier": "Two-Way",
+"composite": -0.43,
+"espn_fit": 3
+},
+"Malik Beasley": {
+"tier": "Two-Way",
+"composite": -0.43,
+"espn_fit": 0
+},
+"Jaden Springer": {
+"tier": "Two-Way",
+"composite": -0.43,
+"espn_fit": 0
+},
+"Garrison Mathews": {
+"tier": "Two-Way",
+"composite": -0.43,
+"espn_fit": 0
+},
+"Kenrich Williams": {
+"tier": "Two-Way",
+"composite": -0.44,
+"espn_fit": 0
+},
+"Jayson Kent": {
+"tier": "Two-Way",
+"composite": -0.44,
+"espn_fit": 0
+},
+"Jevon Carter": {
+"tier": "Two-Way",
+"composite": -0.46,
+"espn_fit": 4
+},
+"Larry Nance": {
+"tier": "Two-Way",
+"composite": -0.46,
+"espn_fit": 0
+},
+"Dalano Banton": {
+"tier": "Two-Way",
+"composite": -0.46,
+"espn_fit": 0
+},
+"E.J. Liddell": {
+"tier": "Two-Way",
+"composite": -0.47,
+"espn_fit": 1
+},
+"Riley Minix": {
+"tier": "Two-Way",
+"composite": -0.47,
+"espn_fit": 0
+},
+"Bradley Beal": {
+"tier": "Two-Way",
+"composite": -0.47,
+"espn_fit": 0
+},
+"Amari Bailey": {
+"tier": "Two-Way",
+"composite": -0.47,
+"espn_fit": 0
+},
+"Spencer Dinwiddie": {
+"tier": "Two-Way",
+"composite": -0.48,
+"espn_fit": 0
+},
+"Antonio Reeves": {
+"tier": "Two-Way",
+"composite": -0.49,
+"espn_fit": 3
+},
+"Ron Harper": {
+"tier": "Two-Way",
+"composite": -0.49,
+"espn_fit": 0
+},
+"Tre Mann": {
+"tier": "Two-Way",
+"composite": -0.49,
+"espn_fit": 0
+},
+"Alex Morales": {
+"tier": "Two-Way",
+"composite": -0.5,
+"espn_fit": 0
+},
+"Chris Manon": {
+"tier": "Two-Way",
+"composite": -0.5,
+"espn_fit": 4
+},
+"Tony Bradley": {
+"tier": "Two-Way",
+"composite": -0.51,
+"espn_fit": 0
+},
+"Mac McClung": {
+"tier": "Two-Way",
+"composite": -0.51,
+"espn_fit": 0
+},
+"Caleb Martin": {
+"tier": "Two-Way",
+"composite": -0.51,
+"espn_fit": 0
+},
+"James Wiseman": {
+"tier": "Two-Way",
+"composite": -0.51,
+"espn_fit": 0
+},
+"Sidy Cissoko": {
+"tier": "Two-Way",
+"composite": -0.52,
+"espn_fit": 0
+},
+"Jaylen Martin": {
+"tier": "Two-Way",
+"composite": -0.53,
+"espn_fit": 0
+},
+"Cam Christie": {
+"tier": "Two-Way",
+"composite": -0.53,
+"espn_fit": 0
+},
+"RJ Davis": {
+"tier": "Two-Way",
+"composite": -0.53,
+"espn_fit": 0
+},
+"Dariq Whitehead": {
+"tier": "Two-Way",
+"composite": -0.54,
+"espn_fit": 0
+},
+"Vladislav Goldin": {
+"tier": "Two-Way",
+"composite": -0.56,
+"espn_fit": 0
+},
+"Rocco Zikarsky": {
+"tier": "Two-Way",
+"composite": -0.56,
+"espn_fit": 0
+},
+"Luke Travers": {
+"tier": "Two-Way",
+"composite": -0.56,
+"espn_fit": 0
+},
+"Nick Richards": {
+"tier": "Two-Way",
+"composite": -0.56,
+"espn_fit": 3
+},
+"CJ Huntley": {
+"tier": "Two-Way",
+"composite": -0.57,
+"espn_fit": 0
+},
+"DJ Burns": {
+"tier": "Two-Way",
+"composite": -0.58,
+"espn_fit": 0
+},
+"David Jones Garcia": {
+"tier": "Two-Way",
+"composite": -0.59,
+"espn_fit": 4
+},
+"Keshon Gilbert": {
+"tier": "Two-Way",
+"composite": -0.59,
+"espn_fit": 0
+},
+"Keon Johnson": {
+"tier": "Two-Way",
+"composite": -0.6,
+"espn_fit": 0
+},
+"Rayan Rupert": {
+"tier": "Two-Way",
+"composite": -0.6,
+"espn_fit": 0
+},
+"Ismael Kamagate": {
+"tier": "Two-Way",
+"composite": -0.61,
+"espn_fit": 0
+},
+"Tristan Enaruna": {
+"tier": "Two-Way",
+"composite": -0.61,
+"espn_fit": 0
+},
+"Mark Sears": {
+"tier": "Two-Way",
+"composite": -0.62,
+"espn_fit": 0
+},
+"Mo Bamba": {
+"tier": "Two-Way",
+"composite": -0.63,
+"espn_fit": 0
+},
+"Gary Harris": {
+"tier": "Two-Way",
+"composite": -0.63,
+"espn_fit": 0
+},
+"Taj Gibson": {
+"tier": "Two-Way",
+"composite": -0.65,
+"espn_fit": 0
+},
+"Jeremy Sochan": {
+"tier": "Two-Way",
+"composite": -0.65,
+"espn_fit": 2
+},
+"AJ Griffin": {
+"tier": "Two-Way",
+"composite": -0.66,
+"espn_fit": 0
+},
+"Blake Wesley": {
+"tier": "Two-Way",
+"composite": -0.66,
+"espn_fit": 0
+},
+"Damion Baugh": {
+"tier": "Two-Way",
+"composite": -0.67,
+"espn_fit": 0
+},
+"Colby Jones": {
+"tier": "Two-Way",
+"composite": -0.68,
+"espn_fit": 0
+},
+"Jesse Edwards": {
+"tier": "Two-Way",
+"composite": -0.68,
+"espn_fit": 0
+},
+"Hugo Besson": {
+"tier": "Two-Way",
+"composite": -0.7,
+"espn_fit": 0
+},
+"Chris Paul": {
+"tier": "Two-Way",
+"composite": -0.71,
+"espn_fit": 0
+},
+"Sharife Cooper": {
+"tier": "Two-Way",
+"composite": -0.72,
+"espn_fit": 0
+},
+"Kostas Antetokounmpo": {
+"tier": "Two-Way",
+"composite": -0.73,
+"espn_fit": 0
+},
+"Keyontae Johnson": {
+"tier": "Two-Way",
+"composite": -0.74,
+"espn_fit": 0
+},
+"Bobi Klintman": {
+"tier": "Two-Way",
+"composite": -0.74,
+"espn_fit": 0
+},
+"Patrick Baldwin": {
+"tier": "Two-Way",
+"composite": -0.74,
+"espn_fit": 0
+},
+"Grant Nelson": {
+"tier": "Two-Way",
+"composite": -0.75,
+"espn_fit": 0
+},
+"Josh Richardson": {
+"tier": "Two-Way",
+"composite": -0.75,
+"espn_fit": 0
+},
+"Mason Plumlee": {
+"tier": "Two-Way",
+"composite": -0.75,
+"espn_fit": 0
+},
+"Jaylen Clark": {
+"tier": "Two-Way",
+"composite": -0.78,
+"espn_fit": 6
+},
+"Cody Martin": {
+"tier": "Two-Way",
+"composite": -0.79,
+"espn_fit": 0
+},
+"Max Abmas": {
+"tier": "Two-Way",
+"composite": -0.8,
+"espn_fit": 0
+},
+"Jahmyl Telfort": {
+"tier": "Two-Way",
+"composite": -0.8,
+"espn_fit": 0
+},
+"Eric Dixon": {
+"tier": "Two-Way",
+"composite": -0.81,
+"espn_fit": 0
+},
+"Kai Jones": {
+"tier": "Two-Way",
+"composite": -0.83,
+"espn_fit": 0
+},
+"Nate Williams": {
+"tier": "Two-Way",
+"composite": -0.84,
+"espn_fit": 0
+},
+"Doug McDermott": {
+"tier": "Two-Way",
+"composite": -0.86,
+"espn_fit": 0
+},
+"Jae'Sean Tate": {
+"tier": "Two-Way",
+"composite": -0.9,
+"espn_fit": 1
+},
+"Drew Peterson": {
+"tier": "Two-Way",
+"composite": -0.91,
+"espn_fit": 0
+},
+"Buddy Boeheim": {
+"tier": "Two-Way",
+"composite": -0.92,
+"espn_fit": 0
+},
+"Kessler Edwards": {
+"tier": "Two-Way",
+"composite": -0.94,
+"espn_fit": 0
+},
+"Javonte Cooke": {
+"tier": "Two-Way",
+"composite": -0.98,
+"espn_fit": 0
+},
+"Curtis Jones": {
+"tier": "Two-Way",
+"composite": -1.0,
+"espn_fit": 0
+},
+"Thanasis Antetokounmpo": {
+"tier": "Two-Way",
+"composite": -1.0,
+"espn_fit": 0
+},
+"Emanuel Miller": {
+"tier": "Two-Way",
+"composite": -1.01,
+"espn_fit": 0
+},
+"Alex Antetokounmpo": {
+"tier": "Two-Way",
+"composite": -1.02,
+"espn_fit": 0
+},
+"Lindy Waters": {
+"tier": "Two-Way",
+"composite": -1.03,
+"espn_fit": 0
+},
+"N'Faly Dante": {
+"tier": "Two-Way",
+"composite": -1.03,
+"espn_fit": 0
+},
+"Joe Ingles": {
+"tier": "Two-Way",
+"composite": -1.03,
+"espn_fit": 0
+},
+"Jacob Toppin": {
+"tier": "Two-Way",
+"composite": -1.04,
+"espn_fit": 0
+},
+"Johnny Davis": {
+"tier": "Two-Way",
+"composite": -1.06,
+"espn_fit": 0
+},
+"Alex Toohey": {
+"tier": "Two-Way",
+"composite": -1.07,
+"espn_fit": 0
+},
+"Jordan McLaughlin": {
+"tier": "Two-Way",
+"composite": -1.08,
+"espn_fit": 1
+},
+"Xavier Tillman": {
+"tier": "Two-Way",
+"composite": -1.1,
+"espn_fit": 0
+},
+"Mohamed Diawara": {
+"tier": "Two-Way",
+"composite": -1.11,
+"espn_fit": 3
+},
+"Dario Saric": {
+"tier": "Two-Way",
+"composite": -1.12,
+"espn_fit": 0
+},
+"Pat Connaughton": {
+"tier": "Two-Way",
+"composite": -1.15,
+"espn_fit": 0
+},
+"Shake Milton": {
+"tier": "Two-Way",
+"composite": -1.16,
+"espn_fit": 0
+},
+"Caleb Houstan": {
+"tier": "Two-Way",
+"composite": -1.18,
+"espn_fit": 0
+},
+"Jeff Green": {
+"tier": "Two-Way",
+"composite": -1.19,
+"espn_fit": 0
+},
+"TyTy Washington": {
+"tier": "Two-Way",
+"composite": -1.21,
+"espn_fit": 0
+},
+"Maxwell Lewis": {
+"tier": "Two-Way",
+"composite": -1.25,
+"espn_fit": 0
+},
+"Alex Reese": {
+"tier": "Two-Way",
+"composite": -1.26,
+"espn_fit": 0
+},
+"Kyle Lowry": {
+"tier": "Two-Way",
+"composite": -1.26,
+"espn_fit": 0
+},
+"Trentyn Flowers": {
+"tier": "Two-Way",
+"composite": -1.27,
+"espn_fit": 0
+},
+"Kylor Kelley": {
+"tier": "Two-Way",
+"composite": -1.31,
+"espn_fit": 0
+},
+"Garrett Temple": {
+"tier": "Two-Way",
+"composite": -1.33,
+"espn_fit": 0
+},
+"Hunter Sallis": {
+"tier": "Two-Way",
+"composite": -1.35,
+"espn_fit": 0
+},
+"Zeke Nnaji": {
+"tier": "Two-Way",
+"composite": -1.38,
+"espn_fit": 0
+},
+"Bismack Biyombo": {
+"tier": "Two-Way",
+"composite": -1.44,
+"espn_fit": 0
+},
+"Jazian Gortman": {
+"tier": "Two-Way",
+"composite": -1.55,
+"espn_fit": 0
+},
+"Trey Jemison": {
+"tier": "Two-Way",
+"composite": -1.58,
+"espn_fit": 3
+},
+"Nigel Hayes-Davis": {
+"tier": "Two-Way",
+"composite": -1.65,
+"espn_fit": 0
+},
+"Ibou Badji": {
+"tier": "Two-Way",
+"composite": -1.76,
+"espn_fit": 0
+},
+"Melvin Ajinca": {
+"tier": "Two-Way",
+"composite": -1.78,
+"espn_fit": 0
+},
+"Elfrid Payton": {
+"tier": "Two-Way",
+"composite": -1.81,
+"espn_fit": 0
+},
+"Jalen Hood-Schifino": {
+"tier": "Two-Way",
+"composite": -1.9,
+"espn_fit": 0
+},
+"Matteo Spagnolo": {
+"tier": "Two-Way",
+"composite": -2.01,
+"espn_fit": 0
+},
+"Nassir Little": {
+"tier": "Two-Way",
+"composite": -2.3,
+"espn_fit": 0
+},
+"Jalen McDaniels": {
+"tier": "Two-Way",
+"composite": -2.56,
+"espn_fit": 0
+},
+"Brandon Boston": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Ricky Council": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Kenyon Martin": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Juan Nunez": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Alec Burks": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Saliou Niang": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Talen Horton-Tucker": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"RJ Luis": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Eli John Ndiaye": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Cam Reddish": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Torrey Craig": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Vasilije Micic": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Victor Oladipo": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Gabriele Procida": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Tarik Biberovic": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"LiAngelo Ball": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Rokas Jokubaitis": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Damion Lee": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Kenneth Lofton": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Dennis Smith": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Daniel Theis": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Quincy Acy": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Greg Brown": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Caleb Daniels": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Reggie Jackson": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Yam Madar": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Yannick Nzosa": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Chuma Okeke": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"P.J. Tucker": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Alberto Abalde": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Marcus Bagley": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Juhann Begarin": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Oshae Brissett": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Keion Brooks": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"John Butler": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Cory Joseph": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Lonnie Walker": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Armando Bacot": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"RaeQuan Battle": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Garrison Brooks": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Jae Crowder": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+},
+"Jeff Dowtin": {
+"tier": "Two-Way",
+"composite": -99,
+"espn_fit": 0
+}
+}
